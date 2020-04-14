@@ -5,51 +5,67 @@
  */
 package model.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author hugo.alexandre
  */
-public class Jogo {
+@Entity
+
+public class Jogo implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int id;
+    @OneToOne
+    @JoinColumn(name = "id_time_desafiante")
     private Time desafiante;
+    @OneToOne
+    @JoinColumn(name = "id_time_desafiado")
     private Time desafiado;
     private int rodada;
-    private ArrayList<Jogador> marcadoresDeGolsDesafiantes;
-    private ArrayList<Jogador> marcadoresDeGolsDesafiado;
-    private int golsDoDesafiante;
-    private int golsDoDesafiado;
+    @OneToMany(mappedBy = "jogo")
+    private ArrayList<Gol> golsDoJogo;
+    @ManyToOne
+    @JoinColumn(name = "id_campeonato")
+    private Campeonato camp;
 
     public Jogo(Time desafiante, Time desafiado) {
         this.desafiado = desafiado;
         this.desafiante = desafiante;
     }
 
-    public Jogo(int id, Time desafiante, Time desafiado, int rodada, ArrayList<Jogador> marcadoresDeGolsDesafiantes, ArrayList<Jogador> marcadoresDeGolsDesafiado, int golsDoDesafiante, int golsDoDesafiado) {
+    public Jogo(int id, Time desafiante, Time desafiado, int rodada, ArrayList<Gol> golsDoJogo, Campeonato campeonato) {
         this.id = id;
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
-        this.marcadoresDeGolsDesafiantes = marcadoresDeGolsDesafiantes;
-        this.marcadoresDeGolsDesafiado = marcadoresDeGolsDesafiado;
-        this.golsDoDesafiante = golsDoDesafiante;
-        this.golsDoDesafiado = golsDoDesafiado;
+        this.golsDoJogo = golsDoJogo;
+        this.camp = campeonato;
     }
 
-    public Jogo(Time desafiante, Time desafiado, int rodada, ArrayList<Jogador> marcadoresDeGolsDesafiantes, ArrayList<Jogador> marcadoresDeGolsDesafiado, int golsDoDesafiante, int golsDoDesafiado) {
+    public Jogo(Time desafiante, Time desafiado, int rodada, ArrayList<Gol> golsDoJogo, Campeonato campeonato) {
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
-        this.marcadoresDeGolsDesafiantes = marcadoresDeGolsDesafiantes;
-        this.marcadoresDeGolsDesafiado = marcadoresDeGolsDesafiado;
-        this.golsDoDesafiante = golsDoDesafiante;
-        this.golsDoDesafiado = golsDoDesafiado;
+        this.golsDoJogo = golsDoJogo;
+        this.camp = campeonato;
     }
-    
+
     
 
-   
     public int getId() {
         return id;
     }
@@ -82,23 +98,22 @@ public class Jogo {
         this.rodada = rodada;
     }
 
-    public ArrayList<Jogador> getMarcadoresDeGolsDesafiantes() {
-        return marcadoresDeGolsDesafiantes;
+    public ArrayList<Gol> getGolsDoJogo() {
+        return golsDoJogo;
     }
 
-    public void setMarcadoresDeGolsDesafiantes(ArrayList<Jogador> marcadoresDeGolsDesafiantes) {
-        this.marcadoresDeGolsDesafiantes = marcadoresDeGolsDesafiantes;
+    public void setGolsDoJogo(ArrayList<Gol> golsDoJogo) {
+        this.golsDoJogo = golsDoJogo;
     }
 
-    public ArrayList<Jogador> getMarcadoresDeGolsDesafiado() {
-        return marcadoresDeGolsDesafiado;
+    
+
+    public Campeonato getCampeonato() {
+        return camp;
     }
 
-    public void setMarcadoresDeGolsDesafiado(ArrayList<Jogador> marcadoresDeGolsDesafiado) {
-        this.marcadoresDeGolsDesafiado = marcadoresDeGolsDesafiado;
+    public void setCampeonato(Campeonato campeonato) {
+        this.camp = campeonato;
     }
     
-    public double calculaPontos(){return 0.0;}
-    public int atualizaGolsPro(){return 0;}
-    public int atualizaGolsContra(){return 0;}
 }

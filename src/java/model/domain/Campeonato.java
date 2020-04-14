@@ -5,19 +5,39 @@
  */
 package model.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author hugo.alexandre
- */
-public class Campeonato {
-   private int id;
-   private String nome;
-   private ArrayList<Usuario> participantes;
-   private ArrayList<Jogo> jogos;
-   private Jogador artilheiro;
-   private Usuario campeao;
+ */@Entity
+public class Campeonato implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private int id;
+    @Column(nullable = false)
+    private String nome;
+    @OneToMany(mappedBy = "campeonato")
+    private ArrayList<Usuario> participantes;
+    @OneToMany(mappedBy = "campeonato")
+    private ArrayList<Jogo> jogos;
+    @OneToOne
+    @JoinColumn(name="id_jogador")
+    private Jogador artilheiro;
+    @OneToOne
+    @JoinColumn(name="id_usuario")
+    private Usuario campeao;
 
     public Campeonato() {
     }
@@ -38,8 +58,12 @@ public class Campeonato {
         this.artilheiro = artilheiro;
         this.campeao = campeao;
     }
-   
-   public String gerarPartidas(){return "";};
+
+    public String gerarPartidas() {
+        return "";
+    }
+
+    ;
 
     public int getId() {
         return id;
@@ -88,6 +112,5 @@ public class Campeonato {
     public void setCampeao(Usuario campeao) {
         this.campeao = campeao;
     }
-   
-   
+
 }

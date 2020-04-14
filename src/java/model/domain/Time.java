@@ -5,16 +5,34 @@
  */
 package model.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author hugo.alexandre
  */
-public class Time {
+@Entity
+public class Time implements Serializable {
+   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int id;
+    @Column(nullable = false)
     private String nome;
+    @OneToMany(mappedBy = "time")
     private ArrayList<Jogador>jogadores;
+    @OneToOne
+    @JoinColumn(name ="id_time")
     private Usuario usuario;
     private double pontos;
     private int golsAFavor;
