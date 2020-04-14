@@ -18,19 +18,22 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author hugo.alexandre
+ * @author hugo.alexandre e thiago.otoni
  */@Entity
 public class Gol implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int id;
+    
     @ManyToOne
     @JoinColumn(name ="id_jogador")
     private Jogador autor;
+    
     @ManyToOne
     @JoinColumn(name ="id_jogo")
     private Jogo jogo;
+    
     @Enumerated(EnumType.STRING)
     private EDiscriminanteGol discriminante;
 

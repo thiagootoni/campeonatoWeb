@@ -25,18 +25,24 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int id;
+    
     @Column(nullable = false)
     private String nome;
+    
     @Column(nullable = false, unique = true)
     private String login;
+    
     @Column(nullable = false, unique = true)
     private String senha;
+    
     @OneToOne
     @JoinColumn(name ="id_time")
     private Time time;
+    
     @ManyToOne
     @JoinColumn(name ="id_campeonato")
     private Campeonato campeonato;
+    
     private boolean adm = false;
 
     public Usuario() {

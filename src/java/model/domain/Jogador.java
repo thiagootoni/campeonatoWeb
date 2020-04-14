@@ -6,7 +6,7 @@
 package model.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,47 +18,42 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author hugo.alexandre
+ * @author hugo.alexandre e thiago.otoni e thiago.otoni
  */
 @Entity
-public class Jogador implements Serializable{
+public class Jogador implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int id;
+    
     private String nome;
+    
     @ManyToOne
     @JoinColumn(name = "id_time")
     private Time time;
+    
     @OneToMany(mappedBy = "autor")
-    private ArrayList<Gol> golsFeitos;
+    private List<Gol> golsFeitos;
+    
 
     public Jogador() {
     }
 
-    public Jogador(String nome, Time time, ArrayList<Gol> golsFeitos) {
-        this.nome = nome;
-        this.time = time;
-        this.golsFeitos = golsFeitos;
-    }
-
-    public Jogador(int id, String nome, Time time, ArrayList<Gol> golsFeitos) {
+    public Jogador(int id, String nome, Time time, List<Gol> golsFeitos) {
         this.id = id;
         this.nome = nome;
         this.time = time;
         this.golsFeitos = golsFeitos;
     }
 
-    public ArrayList<Gol> getGolsFeitos() {
-        return golsFeitos;
-    }
-
-    public void setGolsFeitos(ArrayList<Gol> golsFeitos) {
+    public Jogador(String nome, Time time, List<Gol> golsFeitos) {
+        this.nome = nome;
+        this.time = time;
         this.golsFeitos = golsFeitos;
     }
-
     
-
     public int getId() {
         return id;
     }
@@ -82,7 +77,13 @@ public class Jogador implements Serializable{
     public void setTime(Time time) {
         this.time = time;
     }
-
     
+    public List<Gol> getGolsFeitos() {
+        return golsFeitos;
+    }
+
+    public void setGolsFeitos(List<Gol> golsFeitos) {
+        this.golsFeitos = golsFeitos;
+    }
 
 }

@@ -6,7 +6,7 @@
 package model.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 
 /**
  *
- * @author hugo.alexandre
+ * @author hugo.alexandre e thiago.otoni
  */
 @Entity
 
@@ -29,42 +29,52 @@ public class Jogo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int id;
+    
     @OneToOne
     @JoinColumn(name = "id_time_desafiante")
     private Time desafiante;
+    
     @OneToOne
     @JoinColumn(name = "id_time_desafiado")
     private Time desafiado;
+    
     private int rodada;
+    
     @OneToMany(mappedBy = "jogo")
-    private ArrayList<Gol> golsDoJogo;
+    private List<Gol> golsDoJogo;
+    
     @ManyToOne
     @JoinColumn(name = "id_campeonato")
-    private Campeonato camp;
+    private Campeonato campeonato;
+    
+    private int golsDesafiante;
+    
+    private int golsDesafiado;
+
+    public Jogo() {
+    }
 
     public Jogo(Time desafiante, Time desafiado) {
         this.desafiado = desafiado;
         this.desafiante = desafiante;
     }
 
-    public Jogo(int id, Time desafiante, Time desafiado, int rodada, ArrayList<Gol> golsDoJogo, Campeonato campeonato) {
+    public Jogo(int id, Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato) {
         this.id = id;
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
         this.golsDoJogo = golsDoJogo;
-        this.camp = campeonato;
+        this.campeonato = campeonato;
     }
 
-    public Jogo(Time desafiante, Time desafiado, int rodada, ArrayList<Gol> golsDoJogo, Campeonato campeonato) {
+    public Jogo(Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato) {
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
         this.golsDoJogo = golsDoJogo;
-        this.camp = campeonato;
+         this.campeonato = campeonato;
     }
-
-    
 
     public int getId() {
         return id;
@@ -98,22 +108,49 @@ public class Jogo implements Serializable {
         this.rodada = rodada;
     }
 
-    public ArrayList<Gol> getGolsDoJogo() {
+    public List<Gol> getGolsDoJogo() {
         return golsDoJogo;
     }
 
-    public void setGolsDoJogo(ArrayList<Gol> golsDoJogo) {
+    public void setGolsDoJogo(List<Gol> golsDoJogo) {
         this.golsDoJogo = golsDoJogo;
     }
 
     
-
     public Campeonato getCampeonato() {
-        return camp;
+        return campeonato;
     }
 
     public void setCampeonato(Campeonato campeonato) {
-        this.camp = campeonato;
+        this.campeonato = campeonato;
+    }
+    
+    public int getGolsDesafiante() {
+        this.setGolsDesafiante();
+        return golsDesafiante;
+    }
+    
+    private void setGolsDesafiante(){
+        this.golsDesafiante = 0;
+        for (Gol gol : golsDoJogo) {
+            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIANTE)){
+                golsDesafiante++;
+            }
+        }
+    }
+
+    public int getGolsDesafiado() {
+        this.setGolsDesafiado();
+        return golsDesafiado;
+    }
+    
+    private void setGolsDesafiado(){
+        this.golsDesafiado = 0;
+        for (Gol gol : golsDoJogo) {
+            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIADO)){
+                golsDesafiado++;
+            }
+        }
     }
     
 }
