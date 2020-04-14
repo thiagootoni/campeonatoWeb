@@ -5,31 +5,59 @@
  */
 package model.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 /**
  *
  * @author hugo.alexandre
  */
-public class Jogador {
- private int id;
- private int nome;
- private Time time;
- private int golsFeitos;
+@Entity
+public class Jogador implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private int id;
+    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "id_time")
+    private Time time;
+    @OneToMany(mappedBy = "autor")
+    private ArrayList<Gol> golsFeitos;
 
     public Jogador() {
     }
 
-    public Jogador(int nome, Time time, int golsFeitos) {
+    public Jogador(String nome, Time time, ArrayList<Gol> golsFeitos) {
         this.nome = nome;
         this.time = time;
         this.golsFeitos = golsFeitos;
     }
 
-    public Jogador(int id, int nome, Time time, int golsFeitos) {
+    public Jogador(int id, String nome, Time time, ArrayList<Gol> golsFeitos) {
         this.id = id;
         this.nome = nome;
         this.time = time;
         this.golsFeitos = golsFeitos;
     }
+
+    public ArrayList<Gol> getGolsFeitos() {
+        return golsFeitos;
+    }
+
+    public void setGolsFeitos(ArrayList<Gol> golsFeitos) {
+        this.golsFeitos = golsFeitos;
+    }
+
+    
 
     public int getId() {
         return id;
@@ -39,11 +67,11 @@ public class Jogador {
         this.id = id;
     }
 
-    public int getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(int nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -55,13 +83,6 @@ public class Jogador {
         this.time = time;
     }
 
-    public int getGolsFeitos() {
-        return golsFeitos;
-    }
+    
 
-    public void setGolsFeitos(int golsFeitos) {
-        this.golsFeitos = golsFeitos;
-    }
- 
- 
 }
