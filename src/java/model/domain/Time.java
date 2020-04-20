@@ -6,6 +6,7 @@
 package model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -119,6 +120,18 @@ public class Time implements Serializable {
 
     public void setGolsContra(int golsContra) {
         this.golsContra = golsContra;
+    }
+    
+    public boolean validaSeExiste(String nome){
+    
+    List<Time>times = new ArrayList<>();
+    
+        for (Time time : times) {
+            if(time.getNome().equalsIgnoreCase(nome))
+                return true;
+        }
+        
+        return false;
     }
     
 }
