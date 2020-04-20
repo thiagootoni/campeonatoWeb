@@ -6,6 +6,8 @@
 package model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -123,5 +125,16 @@ public class Usuario implements Serializable {
         this.adm = adm;
     }
     
+    public boolean validaSeExiste(String login){
+    
+       List<Usuario> usuarios = new ArrayList<>();
+       
+        for (Usuario usuario : usuarios) {
+         if (usuario.getLogin().equalsIgnoreCase(login))
+             return true;
+        }
+        
+        return false;
+    }
     
 }
