@@ -6,7 +6,9 @@
 package controller;
 
 import controller.action.ICommanderAction;
+import controller.action.impl.login.LogarUserAction;
 import controller.action.impl.db.SaveUserAction;
+import controller.action.impl.login.LogoutUserAction;
 import controller.action.view.CallViewCadastroAction;
 import controller.action.view.CallViewHomeAction;
 import controller.action.view.CallViewLoginAction;
@@ -33,9 +35,12 @@ public class CommanderController extends HttpServlet {
 
     static {
         comandos = new Hashtable<>();
+        comandos.put("", new CallViewLoginAction());
         comandos.put("login", new CallViewLoginAction());
         comandos.put("home", new CallViewHomeAction());
         comandos.put("saveUser", new SaveUserAction());
+        comandos.put("logarUsuario", new LogarUserAction());
+        comandos.put("logoutUsuario", new LogoutUserAction());
 
     }
 
@@ -44,20 +49,30 @@ public class CommanderController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String ac = request.getParameter("ac");
-        if (ac == null) {
-            RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=erro");
-            request.setAttribute("err", "ac está chegando null");
-            rd.forward(request, response);
-        } else {
-            try {
-                comandos.get(ac).executar(request, response);
-            } catch (Exception ex) {
+        ac = (ac == null) ? "" : ac;
 
-                RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=erro");
-                request.setAttribute("err", "Comando não encontrado!");
+        try {
+            if (comandos.get(ac).ehLiberado()) {
+                comandos.get(ac).executar(request, response);
+            } else if (request.getSession().getAttribute("user") != null) {
+                comandos.get(ac).executar(request, response);
+            } else {
+                request.setAttribute("erro", "Acesso restrito, faça login para aproveitar o site!");
+                new CallViewLoginAction().executar(request, response);
+            }
+
+        } catch (Exception ex) {
+            if (request.getSession().getAttribute("user")!= null) {
+                RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=home");
+                request.setAttribute("erro", "Comando inexistente: " + ac);                
+                rd.forward(request, response);
+            }else{                
+                RequestDispatcher rd = request.getRequestDispatcher("erro.jsp");
+                request.setAttribute("erro", "Comando inexistente: " + ac);
                 rd.forward(request, response);
             }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

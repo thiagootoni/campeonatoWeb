@@ -5,5 +5,5 @@
 --%>
 
 <div>
-    <h1> Hello World </h1>
+    <h1> E aí ${sessionScope.user.nome}, blz? </h1>
 </div>

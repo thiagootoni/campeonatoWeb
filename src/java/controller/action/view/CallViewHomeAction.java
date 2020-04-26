@@ -24,6 +24,6 @@ public class CallViewHomeAction implements ICommanderAction {
 
     @Override
     public boolean ehLiberado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 }

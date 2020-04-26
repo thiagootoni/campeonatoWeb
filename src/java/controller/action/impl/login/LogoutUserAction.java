@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.action.view;
+package controller.action.impl.login;
 
 import controller.action.ICommanderAction;
-import javax.servlet.RequestDispatcher;
+import controller.action.view.CallViewLoginAction;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author hugo.alexandre
+ * @author Thiago
  */
-public class CallViewCadastroAction implements ICommanderAction{
+public class LogoutUserAction implements ICommanderAction{
 
-    @Override
-    public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {    
-        
-    }
-    
     @Override
     public boolean ehLiberado() {
         return true;
-    }    
+    }
+
+    @Override
+    public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.getSession().invalidate();
+        new CallViewLoginAction().executar(request, response);
+    }
+    
 }

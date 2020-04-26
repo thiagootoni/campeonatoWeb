@@ -14,17 +14,22 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author hugo.alexandre
  */
-public class CallViewLoginAction implements ICommanderAction{
+public class CallViewLoginAction implements ICommanderAction {
 
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-    rd.forward(request, response);
+        
+        if (request.getSession().getAttribute("user") != null) {
+            new CallViewHomeAction().executar(request, response);
+        }else{
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
     public boolean ehLiberado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
-    
+
 }

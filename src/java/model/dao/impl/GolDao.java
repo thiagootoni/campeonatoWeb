@@ -47,7 +47,7 @@ public class GolDao extends GenericsDao<Integer, Gol> {
 
     @Override
     public Gol buscarUm(Integer key) throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT g FROM Gol WHERE g.id = :id");
+        Query q = this.getConexao().createQuery("SELECT g FROM Gol g WHERE g.id = :id");
 
         try {
             q.setParameter("id", key);

@@ -47,7 +47,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
 
     @Override
     public Campeonato buscarUm(Integer key) throws SQLException {
-       Query q = this.getConexao().createQuery("SELECT c FROM Campeonato WHERE c.id = :id");
+       Query q = this.getConexao().createQuery("SELECT c FROM Campeonato c WHERE c.id = :id");
        
        try {
             q.setParameter("id", key);

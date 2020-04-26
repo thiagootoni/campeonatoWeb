@@ -47,7 +47,7 @@ public class JogadorDao extends GenericsDao<Integer, Jogador>{
 
     @Override
     public Jogador buscarUm(Integer key) throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT j FROM Jogador WHERE j.id = :id");
+        Query q = this.getConexao().createQuery("SELECT j FROM Jogador j WHERE j.id = :id");
        
        try {
             q.setParameter("id", key);

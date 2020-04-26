@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import model.DTO.UsuarioLogadoDTO;
 import model.dao.GenericsDao;
 import model.domain.Usuario;
 
@@ -48,11 +49,25 @@ public class UsuarioDao extends GenericsDao<Integer, Usuario>{
 
     @Override
     public Usuario buscarUm(Integer key) throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT u FROM Usuario WHERE u.id = :id");
+        Query q = this.getConexao().createQuery("SELECT u FROM Usuario u WHERE u.id = :id");
        
        try {
             q.setParameter("id", key);
             return (Usuario) q.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+    }
+    
+    public UsuarioLogadoDTO buscarPorLoginESenha(String login, String senha)throws SQLException{
+       Query q = this.getConexao().createQuery("SELECT u FROM Usuario u WHERE u.login = :login AND u.senha = :senha");
+       
+       try {
+            q.setParameter("login", login);
+            q.setParameter("senha", senha);
+            Usuario u = (Usuario) q.getSingleResult();
+            UsuarioLogadoDTO udto = new UsuarioLogadoDTO(u.getId(), u.getNome(), u.isAdm());
+            return udto;
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }

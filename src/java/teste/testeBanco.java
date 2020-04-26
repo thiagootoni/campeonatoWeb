@@ -32,9 +32,7 @@ public class testeBanco {
 //        em.close();
 //        emf.close();
           
-          Usuario user = new Usuario("Thiago", "totoni@t", "1234", null, null, true);
-          new UsuarioDao().inserir(user);
-
-          
+          Usuario user = new Usuario("Karol", "karol@k", "1234", null, null, true);
+          new UsuarioDao().inserir(user);  
     }
 }

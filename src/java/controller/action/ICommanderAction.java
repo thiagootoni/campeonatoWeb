@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface ICommanderAction {
     
-    public boolean ehLiberado();
+   public boolean ehLiberado();
+   
    public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception ; 
 }

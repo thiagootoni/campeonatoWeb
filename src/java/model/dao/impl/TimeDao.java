@@ -48,7 +48,7 @@ public class TimeDao extends GenericsDao<Integer, Time>{
 
     @Override
     public Time buscarUm(Integer key) throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT t FROM Time WHERE t.id = :id");
+        Query q = this.getConexao().createQuery("SELECT t FROM Time t WHERE t.id = :id");
        
        try {
             q.setParameter("id", key);
