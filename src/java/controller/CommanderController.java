@@ -12,6 +12,7 @@ import controller.action.impl.login.LogoutUserAction;
 import controller.action.view.CallViewCadastroAction;
 import controller.action.view.CallViewHomeAction;
 import controller.action.view.CallViewLoginAction;
+import controller.action.view.CallViewPainelCampeonatoAction;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Hashtable;
@@ -41,6 +42,7 @@ public class CommanderController extends HttpServlet {
         comandos.put("saveUser", new SaveUserAction());
         comandos.put("logarUsuario", new LogarUserAction());
         comandos.put("logoutUsuario", new LogoutUserAction());
+        comandos.put("painelCampeonato", new CallViewPainelCampeonatoAction());
 
     }
 

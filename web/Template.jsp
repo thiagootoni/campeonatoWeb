@@ -59,8 +59,8 @@
             <a class="w3-bar-item w3-button w3-hover-black" href="#">Artilharia</a>
             <a class="w3-bar-item w3-button w3-hover-black" href="#">Histórico</a>
             <c:if test="${sessionScope.user.ehAdm == true}">
-                <h4 class="w3-bar-item"><b>Menu Restrito(ADM)</b></h4>
-                <a class="w3-bar-item w3-button w3-hover-black" href="#">+ Campeonato</a>
+                <h4 class="w3-bar-item"><b>Menu Restrito</b></h4>
+                <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelCampeonato">+ Campeonato</a>
                 <a class="w3-bar-item w3-button w3-hover-black" href="#">+ Time</a>
                 <a class="w3-bar-item w3-button w3-hover-black" href="#">+ Jogador</a>
             </c:if>
@@ -71,8 +71,8 @@
         <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
              id="myOverlay"></div>
 
-        <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-        <div class="w3-main" style="margin-left:250px">
+        <!-- Main content: shift it to the right by 270 pixels when the sidebar is visible -->
+        <div class="w3-main" style="margin-left:270px">
 
             <div class="w3-row w3-padding-64 conteinerPrincipal">
                 <c:if test="${requestScope.erro != null}">
