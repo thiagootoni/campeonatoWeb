@@ -69,7 +69,7 @@ public class SaveUserAction implements ICommanderAction {
     }
 
     public boolean verificaCamposEssenciais(String nome, String login, String senha) {
-        if (nome == null || login == null || senha == null) {
+        if (nome.isEmpty() || login.isEmpty() || senha.isEmpty()) {
             return false;
         } else {
             return true;
