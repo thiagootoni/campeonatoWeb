@@ -6,12 +6,15 @@
 package model.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import model.DTO.CampeonatoPainelAdmDto;
 import model.dao.GenericsDao;
 import model.domain.Campeonato;
+import model.domain.EStatusCampeonato;
 
 /**
  *
@@ -64,5 +67,32 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
         return q.getResultList();
     }
     
-
+    public List<CampeonatoPainelAdmDto> buscarTodosCampPainelDto() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        List<CampeonatoPainelAdmDto> campsDto =  new ArrayList<>();
+        
+        for (Campeonato campeonato : campeonatos) {
+            CampeonatoPainelAdmDto campDto = new CampeonatoPainelAdmDto();
+            campDto.setId(campeonato.getId());
+            campDto.setNome(campeonato.getNome());
+            campDto.setQtdParticipantes(campeonato.getParticipantes().size());
+            campDto.setStatus(campeonato.getStatus());
+            
+            campsDto.add(campDto);
+        }
+        
+        return campsDto;
+    }
+    
+    public boolean checkCampeonatoAberto() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (campeonato.getStatus().equals(EStatusCampeonato.EM_ABERTO)) {
+                return true;
+            }
+        }        
+        return false;        
+    }
+    
 }

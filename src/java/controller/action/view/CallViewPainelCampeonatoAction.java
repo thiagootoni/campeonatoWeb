@@ -6,9 +6,14 @@
 package controller.action.view;
 
 import controller.action.ICommanderAction;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DTO.CampeonatoPainelAdmDto;
+import model.dao.impl.CampeonatoDao;
+import model.domain.Campeonato;
+import model.domain.EStatusCampeonato;
 
 /**
  *
@@ -24,6 +29,13 @@ public class CallViewPainelCampeonatoAction implements ICommanderAction{
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelCampeonato");
+        
+        boolean temCampeonatoAberto = new CampeonatoDao().checkCampeonatoAberto();
+        request.setAttribute("temCampeonatoAberto", temCampeonatoAberto);
+                
+        List<CampeonatoPainelAdmDto> campsPainelDto = new CampeonatoDao().buscarTodosCampPainelDto();
+        request.setAttribute("campsPainelDto", campsPainelDto);
+        
         rd.forward(request, response);
     }
     
