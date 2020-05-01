@@ -6,6 +6,7 @@
 package model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
 import javax.persistence.Column;
@@ -56,6 +57,16 @@ public class Campeonato implements Serializable {
 
     
     public Campeonato() {
+        this.participantes = new ArrayList<>();
+        this.jogos = new ArrayList<>();
+    }
+    
+    public Campeonato(String nome, int qtdUsuarios){
+        this.nome = nome;
+        this.qtdUsuarios = qtdUsuarios;
+        this.status = EStatusCampeonato.EM_ABERTO;
+        this.participantes = new ArrayList<>();
+        this.jogos = new ArrayList<>();
     }
 
     public Campeonato(int id, String nome, List<Usuario> participantes, List<Jogo> jogos, Jogador artilheiro, Usuario campeao, int qtdUsuarios) {

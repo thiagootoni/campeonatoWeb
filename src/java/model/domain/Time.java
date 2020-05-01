@@ -8,6 +8,7 @@ package model.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Time implements Serializable {
     @Column(nullable = false)
     private String nome;
     
-    @OneToMany(mappedBy = "time")
+    @OneToMany(mappedBy = "time", cascade = CascadeType.REMOVE)
     private List<Jogador>jogadores;
     
     @OneToOne(mappedBy = "time")
@@ -45,6 +46,7 @@ public class Time implements Serializable {
     private int golsContra;
 
     public Time() {
+        this.jogadores = new ArrayList<>();
     }
 
     public Time(String nome, List<Jogador> jogadores, Usuario usuario, double pontos, int golsAFavor, int golsContra) {

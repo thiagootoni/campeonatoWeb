@@ -8,13 +8,16 @@ package controller.action.impl.db;
 import controller.action.ICommanderAction;
 import controller.action.view.CallViewHomeAction;
 import controller.action.view.CallViewLoginAction;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DTO.TimeDTO;
+import model.dao.impl.CampeonatoDao;
 import model.dao.impl.TimeDao;
 import model.dao.impl.UsuarioDao;
+import model.domain.Campeonato;
 import model.domain.Time;
 import model.domain.Usuario;
 
@@ -36,21 +39,28 @@ public class SaveUserAction implements ICommanderAction {
         String login = request.getParameter("iptLogin");
         String senha = request.getParameter("iptSenha");
         String time = request.getParameter("time");
-        
+
         Usuario user = new Usuario();
 
         if (verificaCamposEssenciais(nome, login, senha)) {
-            
 
             if (!user.validaSeExiste(request.getParameter("iptLogin"))) {
                 user.setNome(request.getParameter("iptNome"));
                 user.setLogin(request.getParameter("iptLogin"));
                 user.setSenha(request.getParameter("iptSenha"));
                 //user.setTime(new TimeDao().buscarUm(new TimeDTO().retornaIdTime(request.getParameter("slcTime"))));
-                new UsuarioDao().inserir(user);
-                
-                request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
-                new CallViewLoginAction().executar(request, response);
+
+                Campeonato campeonato = verificaSeHaCampeonatoEmAberto();
+                if (campeonato != null) {
+                    user.setCampeonato(campeonato);
+                    new UsuarioDao().inserir(user);
+                    request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
+                    new CallViewLoginAction().executar(request, response);
+                } else {
+                    request.setAttribute("erro", "Volta depois fera! No momento não há campeonatos abertos!");
+                    new CallViewLoginAction().executar(request, response);
+                }
+
             } else {
 
                 RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=index");
@@ -58,7 +68,7 @@ public class SaveUserAction implements ICommanderAction {
                 rd.forward(request, response);
 
             }
-        }else{
+        } else {
             request.setAttribute("erro", "Campos faltantes! Refaça o cadastro!");
             user.setNome(nome);
             user.setLogin(login);
@@ -74,6 +84,11 @@ public class SaveUserAction implements ICommanderAction {
         } else {
             return true;
         }
+    }
+
+    public Campeonato verificaSeHaCampeonatoEmAberto() throws SQLException {
+        CampeonatoDao cdao = new CampeonatoDao();
+        return cdao.getCampeonatoAberto();
     }
 
 }

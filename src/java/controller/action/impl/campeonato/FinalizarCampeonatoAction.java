@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.action.view;
+package controller.action.impl.campeonato;
 
 import controller.action.ICommanderAction;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
+import controller.action.view.CallViewPainelCampeonatoAction;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DTO.CampeonatoPainelAdmDto;
 import model.dao.impl.CampeonatoDao;
 import model.domain.Campeonato;
 import model.domain.EStatusCampeonato;
@@ -19,7 +17,7 @@ import model.domain.EStatusCampeonato;
  *
  * @author Thiago
  */
-public class CallViewPainelCampeonatoAction implements ICommanderAction{
+public class FinalizarCampeonatoAction implements ICommanderAction{
 
     @Override
     public boolean ehLiberado() {
@@ -28,15 +26,19 @@ public class CallViewPainelCampeonatoAction implements ICommanderAction{
 
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelCampeonato");
+        CampeonatoDao cdao = new CampeonatoDao();
         
-        boolean temCampeonatoAberto = new CampeonatoDao().checkCampeonatoAbertoOuEmAndamento();
-        request.setAttribute("temCampeonatoAberto", temCampeonatoAberto);
-                
-        List<CampeonatoPainelAdmDto> campeonatos = new CampeonatoDao().buscarTodosCampPainelDto();
-        request.setAttribute("campeonatos", campeonatos);
+        int id = Integer.parseInt(request.getParameter("id"));
         
-        rd.forward(request, response);
+        Campeonato campeonato = cdao.buscarUm(id);
+        campeonato.setStatus(EStatusCampeonato.FINALIZADO);
+        campeonato = cdao.alterar(campeonato);
+        
+        // Colocar campeonato no histórico
+        // Apagar os registros dos usuários e times.
+        
+        cdao.close();
+        new CallViewPainelCampeonatoAction().executar(request, response);
     }
     
 }

@@ -76,6 +76,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
             campDto.setId(campeonato.getId());
             campDto.setNome(campeonato.getNome());
             campDto.setQtdParticipantes(campeonato.getParticipantes().size());
+            campDto.setQtdVagas(campeonato.getQtdUsuarios());
             campDto.setStatus(campeonato.getStatus());
             
             campsDto.add(campDto);
@@ -84,15 +85,50 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
         return campsDto;
     }
     
-    public boolean checkCampeonatoAberto() throws SQLException {
+    public Campeonato getCampeonatoAbertoOuEmAndamento() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (!campeonato.getStatus().equals(EStatusCampeonato.FINALIZADO)) {
+                return campeonato;
+            }
+        }        
+        return new Campeonato();        
+    }
+    
+    public Campeonato getCampeonatoAberto() throws SQLException {
         List<Campeonato> campeonatos = this.buscarTodos();
         
         for (Campeonato campeonato : campeonatos) {
             if (campeonato.getStatus().equals(EStatusCampeonato.EM_ABERTO)) {
+                return campeonato;
+            }
+        }        
+        return new Campeonato();        
+    }
+    
+    public boolean checkCampeonatoAbertoOuEmAndamento() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (!campeonato.getStatus().equals(EStatusCampeonato.FINALIZADO)) {
                 return true;
             }
         }        
         return false;        
+    }
+    
+    
+    
+    public Campeonato buscaCampeonatoEmAbertoOuEmAndamento() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (!campeonato.getStatus().equals(EStatusCampeonato.FINALIZADO)) {
+                return campeonato;
+            }
+        }        
+        return null;        
     }
     
 }

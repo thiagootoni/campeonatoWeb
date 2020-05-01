@@ -19,6 +19,10 @@ public class CallViewHomeAction implements ICommanderAction {
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=home");
+        
+        // Pegar o campeonato que não está finalizado e manda pra view
+        // Na view verifica o status e renderiza de acordo com o perfil do usuário       
+        
         rd.forward(request, response);
     }
 

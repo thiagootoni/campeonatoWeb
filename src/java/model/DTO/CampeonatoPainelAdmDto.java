@@ -15,15 +15,17 @@ public class CampeonatoPainelAdmDto {
     private int id;
     private String nome;
     private int qtdParticipantes;
+    private int qtdVagas;
     private EStatusCampeonato status;
 
     public CampeonatoPainelAdmDto() {
     }
 
-    public CampeonatoPainelAdmDto(int id, String nome, int qtdParticipantes, EStatusCampeonato status) {
+    public CampeonatoPainelAdmDto(int id, String nome, int qtdParticipantes, int qtdVagas, EStatusCampeonato status) {
         this.id = id;
         this.nome = nome;
         this.qtdParticipantes = qtdParticipantes;
+        this.qtdVagas = qtdVagas;
         this.status = status;
     }
 
@@ -50,6 +52,15 @@ public class CampeonatoPainelAdmDto {
     public void setQtdParticipantes(int qtdParticipantes) {
         this.qtdParticipantes = qtdParticipantes;
     }
+
+    public int getQtdVagas() {
+        return qtdVagas;
+    }
+
+    public void setQtdVagas(int qtdVagas) {
+        this.qtdVagas = qtdVagas;
+    }   
+    
 
     public EStatusCampeonato getStatus() {
         return status;

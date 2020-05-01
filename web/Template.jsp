@@ -55,14 +55,14 @@
                 <i class="fa fa-remove"></i>
             </a>
             <h4 class="w3-bar-item"><b>Menu</b></h4>
-            <a class="w3-bar-item w3-button w3-hover-black" href="#">Campeonato</a>
+            <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=home">Campeonato</a>
             <a class="w3-bar-item w3-button w3-hover-black" href="#">Artilharia</a>
             <a class="w3-bar-item w3-button w3-hover-black" href="#">Histórico</a>
             <c:if test="${sessionScope.user.ehAdm == true}">
                 <h4 class="w3-bar-item"><b>Menu Restrito</b></h4>
                 <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelCampeonato">+ Campeonato</a>
-                <a class="w3-bar-item w3-button w3-hover-black" href="#">+ Time</a>
-                <a class="w3-bar-item w3-button w3-hover-black" href="#">+ Jogador</a>
+                <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelTimes">+ Time</a>
+                <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelJogadores">+ Jogador</a>
             </c:if>
             <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=logoutUsuario">Sair</a> 
         </nav>

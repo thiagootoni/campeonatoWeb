@@ -6,10 +6,12 @@
 package model.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import model.DTO.JogadorPainelAdmDTO;
 import model.dao.GenericsDao;
 import model.domain.Jogador;
 
@@ -36,8 +38,7 @@ public class JogadorDao extends GenericsDao<Integer, Jogador>{
 
     @Override
     public void apagar(Integer key) throws SQLException {
-        Jogador j = new Jogador();
-        j.setId(key);
+        Jogador j = this.buscarUm(key);
         
         this.getConexao().getTransaction().begin();
         this.getConexao().remove(j);
@@ -62,6 +63,22 @@ public class JogadorDao extends GenericsDao<Integer, Jogador>{
         Query q = this.getConexao().createQuery("SELECT j FROM Jogador j");
         
         return q.getResultList();
+    }
+    
+    public List<JogadorPainelAdmDTO> buscarTodosPainelAdmDto() throws SQLException{
+        List<Jogador> jogadores = this.buscarTodos();
+        List<JogadorPainelAdmDTO> jogadoresDto = new ArrayList<>();
+        
+        for (Jogador jogador : jogadores) {
+            JogadorPainelAdmDTO jDto = new JogadorPainelAdmDTO();
+            jDto.setId(jogador.getId());
+            jDto.setNome(jogador.getNome());
+            jDto.setClube(jogador.getTime().getNome());
+            
+            jogadoresDto.add(jDto);
+        }
+        
+        return jogadoresDto;
     }
     
     

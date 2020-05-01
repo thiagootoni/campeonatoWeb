@@ -6,10 +6,12 @@
 package model.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import model.DTO.TimePainelAdmDTO;
 import model.dao.GenericsDao;
 import model.domain.Time;
 
@@ -39,6 +41,7 @@ public class TimeDao extends GenericsDao<Integer, Time>{
     public void apagar(Integer key) throws SQLException {
         Time t = new Time();
         t.setId(key);
+        t = this.buscarUm(key);
         
         this.getConexao().getTransaction().begin();
         this.getConexao().remove(t);
@@ -63,6 +66,22 @@ public class TimeDao extends GenericsDao<Integer, Time>{
         Query q = this.getConexao().createQuery("SELECT t FROM Time t");
         
         return q.getResultList();
+    }
+    
+    public List<TimePainelAdmDTO> buscarTodosPainelDto() throws SQLException {
+        List<Time> times = this.buscarTodos();
+        List<TimePainelAdmDTO> timesDto = new ArrayList<>();
+        
+        for (Time time : times) {
+            TimePainelAdmDTO tdto = new TimePainelAdmDTO();
+            tdto.setId(time.getId());
+            tdto.setNome(time.getNome());
+            tdto.setQtdJogadores(time.getJogadores().size());
+            
+            timesDto.add(tdto);
+        }
+        
+        return timesDto;
     }
     
 }

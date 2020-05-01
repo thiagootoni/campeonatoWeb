@@ -10,16 +10,14 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DTO.CampeonatoPainelAdmDto;
-import model.dao.impl.CampeonatoDao;
-import model.domain.Campeonato;
-import model.domain.EStatusCampeonato;
+import model.DTO.TimePainelAdmDTO;
+import model.dao.impl.TimeDao;
 
 /**
  *
  * @author Thiago
  */
-public class CallViewPainelCampeonatoAction implements ICommanderAction{
+public class CallViewPainelTimes implements ICommanderAction {
 
     @Override
     public boolean ehLiberado() {
@@ -28,15 +26,20 @@ public class CallViewPainelCampeonatoAction implements ICommanderAction{
 
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelCampeonato");
+        RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelTimes");
         
-        boolean temCampeonatoAberto = new CampeonatoDao().checkCampeonatoAbertoOuEmAndamento();
-        request.setAttribute("temCampeonatoAberto", temCampeonatoAberto);
-                
-        List<CampeonatoPainelAdmDto> campeonatos = new CampeonatoDao().buscarTodosCampPainelDto();
-        request.setAttribute("campeonatos", campeonatos);
+        request.removeAttribute("times");
         
+        TimeDao tdao = new TimeDao();
+        
+        List<TimePainelAdmDTO> timesDto = tdao.buscarTodosPainelDto();
+        if (timesDto.size() == 0) {
+            request.setAttribute("mensagem", "Não há times cadastrados!");
+        }else{
+            request.setAttribute("times", timesDto);
+        }   
+        tdao.close();
         rd.forward(request, response);
     }
-    
+
 }

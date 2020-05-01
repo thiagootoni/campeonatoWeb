@@ -6,18 +6,23 @@
 package controller;
 
 import controller.action.ICommanderAction;
+import controller.action.impl.campeonato.FinalizarCampeonatoAction;
+import controller.action.impl.db.AlterarTimeAction;
+import controller.action.impl.db.ExcluirJogadorAction;
+import controller.action.impl.db.ExcluirTimeAction;
+import controller.action.impl.db.SaveCampeonatoAction;
+import controller.action.impl.db.SaveNewJogadorAction;
+import controller.action.impl.db.SaveNewtimeAction;
 import controller.action.impl.login.LogarUserAction;
 import controller.action.impl.db.SaveUserAction;
 import controller.action.impl.login.LogoutUserAction;
-import controller.action.view.CallViewCadastroAction;
 import controller.action.view.CallViewHomeAction;
 import controller.action.view.CallViewLoginAction;
 import controller.action.view.CallViewPainelCampeonatoAction;
+import controller.action.view.CallViewPainelJogadores;
+import controller.action.view.CallViewPainelTimes;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,6 +48,15 @@ public class CommanderController extends HttpServlet {
         comandos.put("logarUsuario", new LogarUserAction());
         comandos.put("logoutUsuario", new LogoutUserAction());
         comandos.put("painelCampeonato", new CallViewPainelCampeonatoAction());
+        comandos.put("painelJogadores", new CallViewPainelJogadores());
+        comandos.put("painelTimes", new CallViewPainelTimes());
+        comandos.put("saveNewCampeonato", new SaveCampeonatoAction());
+        comandos.put("finalizarCampeonato", new FinalizarCampeonatoAction());
+        comandos.put("saveNewTime", new SaveNewtimeAction());
+        comandos.put("excluirTime", new ExcluirTimeAction());
+        comandos.put("alterarTime", new AlterarTimeAction());
+        comandos.put("saveNewJogador", new SaveNewJogadorAction());
+        comandos.put("excluirJogador", new ExcluirJogadorAction());
 
     }
 
