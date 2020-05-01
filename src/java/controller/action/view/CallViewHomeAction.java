@@ -9,6 +9,8 @@ import controller.action.ICommanderAction;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.dao.impl.CampeonatoDao;
+import model.domain.Campeonato;
 
 /**
  *
@@ -21,8 +23,12 @@ public class CallViewHomeAction implements ICommanderAction {
         RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=home");
         
         // Pegar o campeonato que não está finalizado e manda pra view
-        // Na view verifica o status e renderiza de acordo com o perfil do usuário       
+        // Na view verifica o status e renderiza de acordo com o perfil do usuário
         
+        CampeonatoDao cDao = new CampeonatoDao();
+        Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
+        
+        request.setAttribute("campeonato", campeonato);
         rd.forward(request, response);
     }
 
