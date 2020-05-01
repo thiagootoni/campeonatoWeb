@@ -104,7 +104,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
                 return campeonato;
             }
         }        
-        return new Campeonato();        
+        return null;        
     }
     
     public boolean checkCampeonatoAbertoOuEmAndamento() throws SQLException {

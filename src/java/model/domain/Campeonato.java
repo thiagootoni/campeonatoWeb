@@ -41,6 +41,7 @@ public class Campeonato implements Serializable {
     private List<Usuario> participantes;
 
     @OneToMany(mappedBy = "campeonato", cascade = CascadeType.REMOVE)
+
     private List<Jogo> jogos;
 
     @OneToOne

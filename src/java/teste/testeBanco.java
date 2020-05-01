@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import model.DTO.TimeDTO;
+import model.dao.impl.TimeDao;
 import model.dao.impl.UsuarioDao;
 import model.domain.Campeonato;
 import model.domain.Time;
@@ -32,7 +34,9 @@ public class testeBanco {
 //        em.close();
 //        emf.close();
           
-          Usuario user = new Usuario("Karol", "karol@k", "1234", null, null, true);
-          new UsuarioDao().inserir(user);  
+        //  Usuario user = new Usuario("Karol", "karol@k", "1234", null, null, true);
+        //  new UsuarioDao().inserir(user);  
+        
+        System.out.println(new TimeDao().retornaTimesDisponiveis().get(0).getNome());
     }
 }
