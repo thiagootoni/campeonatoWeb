@@ -48,7 +48,7 @@ public class SaveUserAction implements ICommanderAction {
                 user.setNome(request.getParameter("iptNome"));
                 user.setLogin(request.getParameter("iptLogin"));
                 user.setSenha(request.getParameter("iptSenha"));
-                //user.setTime(new TimeDao().buscarUm(new TimeDTO().retornaIdTime(request.getParameter("slcTime"))));
+                user.setTime(new TimeDao().buscarUm(Integer.parseInt(request.getParameter("slcTime"))));
 
                 Campeonato campeonato = verificaSeHaCampeonatoEmAberto();
                 if (campeonato != null) {
