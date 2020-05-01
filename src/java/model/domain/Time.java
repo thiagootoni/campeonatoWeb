@@ -136,4 +136,8 @@ public class Time implements Serializable {
         return false;
     }
     
+    public boolean equals(Time time){
+        return this.nome.equalsIgnoreCase(time.getNome());
+    }
+    
 }

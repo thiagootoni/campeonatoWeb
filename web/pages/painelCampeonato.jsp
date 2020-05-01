@@ -63,6 +63,9 @@
                             <c:if test="${campeonato.status.getNome() == 'Finalizado'}">
                                 <a class="btn btn-outline-danger btn-sm" href="central?ac=excluirCampeonato&id=${campeonato.id}">Excluir</a>
                             </c:if>
+                            <c:if test="${campeonato.status.getNome() == 'Em aberto'}">
+                                <a class="btn btn-outline-danger btn-sm" href="central?ac=iniciarCampeonato&id=${campeonato.id}">Iniciar</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>

@@ -7,6 +7,7 @@ package controller;
 
 import controller.action.ICommanderAction;
 import controller.action.impl.campeonato.FinalizarCampeonatoAction;
+import controller.action.impl.campeonato.IniciarCampeonatoAction;
 import controller.action.impl.db.AlterarTimeAction;
 import controller.action.impl.db.ExcluirJogadorAction;
 import controller.action.impl.db.ExcluirTimeAction;
@@ -52,6 +53,7 @@ public class CommanderController extends HttpServlet {
         comandos.put("painelJogadores", new CallViewPainelJogadores());
         comandos.put("painelTimes", new CallViewPainelTimes());
         comandos.put("saveNewCampeonato", new SaveCampeonatoAction());
+        comandos.put("iniciarCampeonato", new IniciarCampeonatoAction());
         comandos.put("finalizarCampeonato", new FinalizarCampeonatoAction());
         comandos.put("saveNewTime", new SaveNewtimeAction());
         comandos.put("excluirTime", new ExcluirTimeAction());
