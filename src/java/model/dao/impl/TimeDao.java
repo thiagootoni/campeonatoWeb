@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import model.DTO.TimeDTO;
 import model.DTO.TimePainelAdmDTO;
 import model.dao.GenericsDao;
 import model.domain.Time;
@@ -84,4 +85,25 @@ public class TimeDao extends GenericsDao<Integer, Time>{
         return timesDto;
     }
     
+    public List<Time> buscarTodosDisponiveis() throws SQLException {
+        Query q = this.getConexao().createQuery("SELECT t \n" +
+                                                        "FROM Time t\n" +
+                                                        "LEFT JOIN t.usuario u\n" +
+                                                        "where u.id is null");
+        
+        return (List<Time>)q.getResultList();
+    }
+    public List<TimeDTO> retornaTimesDisponiveis() throws SQLException{
+    
+    List<Time> times = this.buscarTodosDisponiveis();
+    
+    List<TimeDTO>timesDTO = new ArrayList<>();
+       
+        for (Time time : times) {
+           timesDTO.add(new TimeDTO(time.getId(),time.getNome()));
+            
+        }
+    return timesDTO;
+   
+    } 
 }

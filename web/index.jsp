@@ -4,6 +4,9 @@
     Author     : Thiago
 --%>
 
+<%@page import="model.dao.impl.TimeDao"%>
+<%@page import="model.DTO.TimeDTO"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -49,8 +52,9 @@
 
     <!-- Banner -->
     <section id="banner" style="background-color: #009688">
-        <div class="inner">
-            <h1>Este é o The Ultimate Championship! <br />
+        <form action ="central" method="post"><div class="inner">
+          
+                <h1>Este é o The Ultimate Championship! <br />
                 Conquiste o reinado do torneio!</h1>
             <!-- buscar se há campeonato aberto e quantas vagas disponíveis -->
             <h3> Restam 3 vagas</h3><br>
@@ -61,6 +65,7 @@
                 <a href="#" class="button alt scrolly"> ${requestScope.erro} </a>
             </c:if>
         </div>
+            </form>
     </section>
 
     <!-- Cadastro -->
@@ -85,11 +90,19 @@
 
             <!-- Repetir Senha --> <br>                        
             <label for="time"> Time: </label>
-            <select id="time" name="time">
-                <option value="barcelona"> Barcelona </option>
+            <select id="time" name="slcTime">
+            <%
+            List<TimeDTO> timesDisponiveis = new TimeDao().retornaTimesDisponiveis();
+            String idStr ="";
+            for(int i=0; i<timesDisponiveis.size(); i++){
+                 idStr = timesDisponiveis.get(i).getId() +"";
+                out.println("<option value=\""+idStr+"\"> "+timesDisponiveis.get(i).getNome()+" </option>");
+            }
+            %>
+            <!--<option value="barcelona"> Barcelona </option>
                 <option value="realmadrid" > Real Madrid </option> 
                 <option value="juventus" > Juventus </option> 
-                <option value="gremio" selected> Gremio </option>                             
+                <option value="gremio" selected> Gremio </option> -->                            
             </select>
 
             <!-- Botão Cadastrar -->

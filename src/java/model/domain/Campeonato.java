@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,10 +35,10 @@ public class Campeonato implements Serializable {
     @Column(nullable = false)
     private String nome;
     
-    @OneToMany(mappedBy = "campeonato")
+    @OneToMany(mappedBy = "campeonato",cascade = CascadeType.ALL )
     private List<Usuario> participantes;
     
-    @OneToMany(mappedBy = "campeonato")
+    @OneToMany(mappedBy = "campeonato" , cascade = CascadeType.ALL)
     private List<Jogo> jogos;
     
     @OneToOne
