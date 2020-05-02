@@ -6,9 +6,12 @@
 package controller.action.view;
 
 import controller.action.ICommanderAction;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DTO.TimeDTO;
+import model.dao.impl.TimeDao;
 
 /**
  *
@@ -22,8 +25,13 @@ public class CallViewLoginAction implements ICommanderAction {
         if (request.getSession().getAttribute("user") != null) {
             new CallViewHomeAction().executar(request, response);
         }else{
+            List<TimeDTO>timesDisponiveis = new TimeDao().retornaTimesDisponiveis();
+            //request.setAttribute("timedisponivel", timesDisponiveis.get(0));
+            request.setAttribute("timesdisponiveis", timesDisponiveis);
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
+            
+          
         }
     }
 

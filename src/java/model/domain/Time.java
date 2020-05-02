@@ -33,10 +33,10 @@ public class Time implements Serializable {
     @Column(nullable = false)
     private String nome;
     
-    @OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "time")
     private List<Jogador>jogadores;
     
-    @OneToOne(mappedBy = "time", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "time")
     private Usuario usuario;
     
     private double pontos;

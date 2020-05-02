@@ -57,7 +57,15 @@
                 <h1>Este é o The Ultimate Championship! <br />
                 Conquiste o reinado do torneio!</h1>
             <!-- buscar se há campeonato aberto e quantas vagas disponíveis -->
-            <h3> Restam 3 vagas</h3><br>
+           <c:if test ="${requestScope.timesdisponiveis.size() >0 && requestScope.timesdisponiveis.size() ==1}">
+            <h3> Resta apenas 1 vaga!</h3><br>
+            </c:if>
+            <c:if test="${requestScope.timesdisponiveis.size() > 1}">
+            <h3>Restam ${requestScope.timesdisponiveis.size()} vagas</h3><br>
+            </c:if>
+            <c:if test="${requestScope.timesdisponiveis.size() == 0 || requestScope.timesdisponiveis == null}">
+            <h3>Não há vagas disponíveis fera</h3><br>
+            </c:if>
             <ul class="actions">
                 <li><a href="#formularioCadastro" class="button alt scrolly big">Cadastrar</a></li>
             </ul>
@@ -91,14 +99,12 @@
             <!-- Repetir Senha --> <br>                        
             <label for="time"> Time: </label>
             <select id="time" name="slcTime">
-            <%
-            List<TimeDTO> timesDisponiveis = new TimeDao().retornaTimesDisponiveis();
-            String idStr ="";
-            for(int i=0; i<timesDisponiveis.size(); i++){
-                 idStr = timesDisponiveis.get(i).getId() +"";
-                out.println("<option value=\""+idStr+"\"> "+timesDisponiveis.get(i).getNome()+" </option>");
-            }
-            %>
+                <c:if test="${requestScope.timesdisponiveis.size() != 0}">
+                <c:forEach var="time" items="${requestScope.timesdisponiveis}"> 
+                 <option value="${time.id}">${time.nome}</option>
+                </c:forEach>
+               </c:if>
+                
             <!--<option value="barcelona"> Barcelona </option>
                 <option value="realmadrid" > Real Madrid </option> 
                 <option value="juventus" > Juventus </option> 
