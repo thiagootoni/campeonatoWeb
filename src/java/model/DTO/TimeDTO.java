@@ -5,7 +5,6 @@
  */
 package model.DTO;
 
-import com.sun.faces.config.manager.tasks.ParseConfigResourceToDOMTask;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;

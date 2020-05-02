@@ -6,10 +6,13 @@
 package controller.action.view;
 
 import controller.action.ICommanderAction;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.impl.CampeonatoDao;
+import model.dao.impl.JogoDao;
 import model.domain.Campeonato;
 
 /**
@@ -28,7 +31,11 @@ public class CallViewHomeAction implements ICommanderAction {
         CampeonatoDao cDao = new CampeonatoDao();
         Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
         
+        JogoDao jDao = new JogoDao();
+        campeonato.setJogos(jDao.buscarTodosPorCampeonato(campeonato.getId()));
+        
         request.setAttribute("campeonato", campeonato);
+        cDao.close();
         rd.forward(request, response);
     }
 
@@ -36,4 +43,6 @@ public class CallViewHomeAction implements ICommanderAction {
     public boolean ehLiberado() {
         return false;
     }
+    
+    
 }

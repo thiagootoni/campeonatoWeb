@@ -7,8 +7,6 @@ package model.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,7 +39,6 @@ public class Campeonato implements Serializable {
     private List<Usuario> participantes;
 
     @OneToMany(mappedBy = "campeonato", cascade = CascadeType.REMOVE)
-
     private List<Jogo> jogos;
 
     @OneToOne
@@ -199,6 +196,7 @@ public class Campeonato implements Serializable {
                             jogosDesordenados.remove(jogoDesordenado);
                             timesNaRodada.add(jogoDesordenado.getDesafiante());
                             timesNaRodada.add(jogoDesordenado.getDesafiado());
+                            break;
                         }
                     }
 
@@ -257,6 +255,23 @@ public class Campeonato implements Serializable {
         }
 
         return false;
+    }
+    
+    public int calculaQtdJogos(){
+        int qtdParticipantes = this.participantes.size();
+        int jogosPorRodada, qtdRodadas, qtdTotalDeJogoso;
+
+        if (nParDeParticipanetes()) {
+            jogosPorRodada = (qtdParticipantes / 2);
+            qtdRodadas = qtdParticipantes - 1;
+            qtdTotalDeJogoso = jogosPorRodada * qtdRodadas;
+        } else {
+            jogosPorRodada = ((qtdParticipantes - 1) / 2);
+            qtdRodadas = qtdParticipantes;
+            qtdTotalDeJogoso = jogosPorRodada * qtdRodadas;
+        }
+        
+        return qtdTotalDeJogoso;
     }
 
 }

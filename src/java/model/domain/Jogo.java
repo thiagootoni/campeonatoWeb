@@ -160,13 +160,8 @@ public class Jogo implements Serializable {
         String timeC = jogo.getDesafiante().getNome();
         String timeD = jogo.getDesafiado().getNome();
         
-        if (timeA.equalsIgnoreCase(timeC) || timeA.equalsIgnoreCase(timeD)) {
-            return true;
-        }else if(timeB.equalsIgnoreCase(timeC) || timeB.equalsIgnoreCase(timeD)){
-            return true;
-        }else{
-            return false;
-        }
+        return (timeA.equalsIgnoreCase(timeC) || timeA.equalsIgnoreCase(timeD)) 
+                && (timeB.equalsIgnoreCase(timeC) || timeB.equalsIgnoreCase(timeD));
     }
     
 }
