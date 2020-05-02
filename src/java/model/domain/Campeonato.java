@@ -196,6 +196,7 @@ public class Campeonato implements Serializable {
                             jogosDesordenados.remove(jogoDesordenado);
                             timesNaRodada.add(jogoDesordenado.getDesafiante());
                             timesNaRodada.add(jogoDesordenado.getDesafiado());
+                            break;
                         }
                     }
 
@@ -254,6 +255,23 @@ public class Campeonato implements Serializable {
         }
 
         return false;
+    }
+    
+    public int calculaQtdJogos(){
+        int qtdParticipantes = this.participantes.size();
+        int jogosPorRodada, qtdRodadas, qtdTotalDeJogoso;
+
+        if (nParDeParticipanetes()) {
+            jogosPorRodada = (qtdParticipantes / 2);
+            qtdRodadas = qtdParticipantes - 1;
+            qtdTotalDeJogoso = jogosPorRodada * qtdRodadas;
+        } else {
+            jogosPorRodada = ((qtdParticipantes - 1) / 2);
+            qtdRodadas = qtdParticipantes;
+            qtdTotalDeJogoso = jogosPorRodada * qtdRodadas;
+        }
+        
+        return qtdTotalDeJogoso;
     }
 
 }

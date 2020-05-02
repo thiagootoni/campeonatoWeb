@@ -59,6 +59,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
             return null;
         }
     }
+    
 
     @Override
     public List<Campeonato> buscarTodos() throws SQLException {
@@ -104,7 +105,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
                 return campeonato;
             }
         }        
-        return new Campeonato();        
+        return null;        
     }
     
     public boolean checkCampeonatoAbertoOuEmAndamento() throws SQLException {

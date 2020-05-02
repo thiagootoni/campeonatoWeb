@@ -61,6 +61,18 @@ public class JogoDao extends GenericsDao<Integer, Jogo> {
     public List<Jogo> buscarTodos() throws SQLException {
         Query q = this.getConexao().createQuery("SELECT j FROM Jogo j");
         
-        return q.getResultList();}
+        return q.getResultList();
+    }
+    
+    public List<Jogo> buscarTodosPorCampeonato(Integer idCampeonato) throws SQLException{
+        Query q = this.getConexao().createQuery("SELECT j FROM Jogo j WHERE j.campeonato.id = :id");
+        
+        try {
+            q.setParameter("id", idCampeonato);
+            return q.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+    }
 
 }

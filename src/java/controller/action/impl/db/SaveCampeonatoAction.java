@@ -10,9 +10,12 @@ import controller.action.view.CallViewPainelCampeonatoAction;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DTO.UsuarioLogadoDTO;
 import model.dao.impl.CampeonatoDao;
+import model.dao.impl.UsuarioDao;
 import model.domain.Campeonato;
 import model.domain.EStatusCampeonato;
+import model.domain.Usuario;
 
 /**
  *
@@ -39,6 +42,16 @@ public class SaveCampeonatoAction implements ICommanderAction{
             request.setAttribute("mensagem", "Campeonto inserido com sucesso!");
             // fechar cdao aqui? cdao.close();
             cdao.close();
+            
+//            UsuarioDao uDao = new UsuarioDao();
+//            
+//            UsuarioLogadoDTO userSessao = (UsuarioLogadoDTO) request.getSession().getAttribute("user");
+//            int idUsuario = userSessao.getId();            
+//            Usuario user = uDao.buscarUm(idUsuario);
+//            user.setCampeonato(campeonato);
+//            uDao.inserir(user);
+//            
+//            uDao.close();
             new CallViewPainelCampeonatoAction().executar(request, response);
             
         }else{

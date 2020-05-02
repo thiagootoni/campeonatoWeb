@@ -11,6 +11,7 @@ import controller.action.impl.campeonato.IniciarCampeonatoAction;
 import controller.action.impl.db.AlterarTimeAction;
 import controller.action.impl.db.ExcluirJogadorAction;
 import controller.action.impl.db.ExcluirTimeAction;
+import controller.action.impl.db.LoadTimesDisponiveisAction;
 import controller.action.impl.db.SaveCampeonatoAction;
 import controller.action.impl.db.SaveNewJogadorAction;
 import controller.action.impl.db.SaveNewtimeAction;
@@ -59,7 +60,7 @@ public class CommanderController extends HttpServlet {
         comandos.put("alterarTime", new AlterarTimeAction());
         comandos.put("saveNewJogador", new SaveNewJogadorAction());
         comandos.put("excluirJogador", new ExcluirJogadorAction());
-
+        comandos.put("loadTimes", new LoadTimesDisponiveisAction());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -82,7 +83,7 @@ public class CommanderController extends HttpServlet {
         } catch (Exception ex) {
             if (request.getSession().getAttribute("user")!= null) {
                 RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=home");
-                request.setAttribute("erro", "Comando inexistente: " + ac);                
+                request.setAttribute("erro", "Comando inexistente: " + ex);                
                 rd.forward(request, response);
             }else{                
                 RequestDispatcher rd = request.getRequestDispatcher("erro.jsp");
