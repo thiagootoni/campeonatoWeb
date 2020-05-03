@@ -14,13 +14,14 @@ import javax.persistence.Query;
 import model.DTO.TimeDTO;
 import model.DTO.TimePainelAdmDTO;
 import model.dao.GenericsDao;
+import model.domain.Campeonato;
 import model.domain.Time;
 
 /**
  *
  * @author Thiago
  */
-public class TimeDao extends GenericsDao<Integer, Time>{
+public class TimeDao extends GenericsDao<Integer, Time> {
 
     @Override
     public Time inserir(Time obj) throws SQLException {
@@ -43,18 +44,18 @@ public class TimeDao extends GenericsDao<Integer, Time>{
         Time t = new Time();
         t.setId(key);
         t = this.buscarUm(key);
-        
+
         this.getConexao().getTransaction().begin();
         this.getConexao().remove(t);
         this.getConexao().getTransaction().commit();
-        
+
     }
 
     @Override
     public Time buscarUm(Integer key) throws SQLException {
         Query q = this.getConexao().createQuery("SELECT t FROM Time t WHERE t.id = :id");
-       
-       try {
+
+        try {
             q.setParameter("id", key);
             return (Time) q.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
@@ -65,45 +66,62 @@ public class TimeDao extends GenericsDao<Integer, Time>{
     @Override
     public List<Time> buscarTodos() throws SQLException {
         Query q = this.getConexao().createQuery("SELECT t FROM Time t");
-        
+
         return q.getResultList();
     }
-    
+
     public List<TimePainelAdmDTO> buscarTodosPainelDto() throws SQLException {
         List<Time> times = this.buscarTodos();
         List<TimePainelAdmDTO> timesDto = new ArrayList<>();
-        
+
         for (Time time : times) {
             TimePainelAdmDTO tdto = new TimePainelAdmDTO();
             tdto.setId(time.getId());
             tdto.setNome(time.getNome());
             tdto.setQtdJogadores(time.getJogadores().size());
-            
+
             timesDto.add(tdto);
         }
-        
+
         return timesDto;
     }
-    
+
     public List<Time> buscarTodosDisponiveis() throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT t \n" +
-                                                        "FROM Time t\n" +
-                                                        "LEFT JOIN t.usuario u\n" +
-                                                        "where u.id is null");
-        
-        return (List<Time>)q.getResultList();
+        Query q = this.getConexao().createQuery("SELECT t \n"
+                + "FROM Time t\n"
+                + "LEFT JOIN t.usuario u\n"
+                + "where u.id is null");
+
+        return (List<Time>) q.getResultList();
     }
-    public List<TimeDTO> retornaTimesDisponiveis() throws SQLException{
-    
-    List<Time> times = this.buscarTodosDisponiveis();
-    
-    List<TimeDTO>timesDTO = new ArrayList<>();
-       
+
+    public List<TimeDTO> retornaTimesDisponiveis() throws SQLException {
+
+        List<Time> times = this.buscarTodosDisponiveis();
+
+        List<TimeDTO> timesDTO = new ArrayList<>();
+
         for (Time time : times) {
-           timesDTO.add(new TimeDTO(time.getId(),time.getNome()));
-            
+            timesDTO.add(new TimeDTO(time.getId(), time.getNome()));
+
         }
-    return timesDTO;
-   
-    } 
+        return timesDTO;
+
+    }
+    
+    public List<Time> buscarTodosDoCampeonato(Integer idCampeonato){
+        Query q = this.getConexao().createQuery("SELECT t \n"
+                + "FROM Time t \n"
+                + "INNER JOIN t.usuario u \n"
+                + "WHERE u.campeonato.id = :id \n"
+                + "ORDER BY t.pontos DESC");
+        
+        try {
+            q.setParameter("id", idCampeonato);
+            return (List<Time>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+        
+    }
 }

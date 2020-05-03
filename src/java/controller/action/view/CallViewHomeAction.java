@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.impl.CampeonatoDao;
 import model.dao.impl.JogoDao;
+import model.dao.impl.TimeDao;
 import model.domain.Campeonato;
+import model.domain.Time;
 
 /**
  *
@@ -34,7 +36,13 @@ public class CallViewHomeAction implements ICommanderAction {
         JogoDao jDao = new JogoDao();
         campeonato.setJogos(jDao.buscarTodosPorCampeonato(campeonato.getId()));
         
+        TimeDao tDao = new TimeDao();
+        List<Time> times = tDao.buscarTodosDoCampeonato(campeonato.getId());
+        
+        
         request.setAttribute("campeonato", campeonato);
+        request.setAttribute("times", times);
+        tDao.close();
         cDao.close();
         rd.forward(request, response);
     }

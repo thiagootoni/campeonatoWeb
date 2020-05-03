@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/css/mainW3.css">
     <link rel="stylesheet" href="assets/css/w3ThemeBlack.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<link rel="stylesheet" href="assets/css/fontAwesomeMin.css">-->
     <style>
         html,
