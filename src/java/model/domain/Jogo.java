@@ -29,27 +29,29 @@ public class Jogo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int id;
-    
+
     @OneToOne
     @JoinColumn(name = "id_time_desafiante")
     private Time desafiante;
-    
+
     @OneToOne
     @JoinColumn(name = "id_time_desafiado")
     private Time desafiado;
-    
+
     private int rodada;
-    
+
     @OneToMany(mappedBy = "jogo")
     private List<Gol> golsDoJogo;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_campeonato")
     private Campeonato campeonato;
-    
+
     private int golsDesafiante;
-    
+
     private int golsDesafiado;
+
+    private boolean foiJogado = false;
 
     public Jogo() {
     }
@@ -59,21 +61,23 @@ public class Jogo implements Serializable {
         this.desafiante = desafiante;
     }
 
-    public Jogo(int id, Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato) {
+    public Jogo(int id, Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato, boolean foiJogado) {
         this.id = id;
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
         this.golsDoJogo = golsDoJogo;
         this.campeonato = campeonato;
+        this.foiJogado = foiJogado;
     }
 
-    public Jogo(Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato) {
+    public Jogo(Time desafiante, Time desafiado, int rodada, List<Gol> golsDoJogo, Campeonato campeonato, boolean foiJogado) {
         this.desafiante = desafiante;
         this.desafiado = desafiado;
         this.rodada = rodada;
         this.golsDoJogo = golsDoJogo;
-         this.campeonato = campeonato;
+        this.campeonato = campeonato;
+        this.foiJogado = foiJogado;
     }
 
     public int getId() {
@@ -116,7 +120,6 @@ public class Jogo implements Serializable {
         this.golsDoJogo = golsDoJogo;
     }
 
-    
     public Campeonato getCampeonato() {
         return campeonato;
     }
@@ -124,44 +127,67 @@ public class Jogo implements Serializable {
     public void setCampeonato(Campeonato campeonato) {
         this.campeonato = campeonato;
     }
-    
+
     public int getGolsDesafiante() {
-        this.setGolsDesafiante();
         return golsDesafiante;
     }
-    
-    private void setGolsDesafiante(){
-        this.golsDesafiante = 0;
-        for (Gol gol : golsDoJogo) {
-            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIANTE)){
-                golsDesafiante++;
-            }
-        }
+
+    public void setGolsDesafiante(int golsDesafiante) {
+        this.golsDesafiante = golsDesafiante;
     }
 
     public int getGolsDesafiado() {
-        this.setGolsDesafiado();
         return golsDesafiado;
     }
-    
-    private void setGolsDesafiado(){
-        this.golsDesafiado = 0;
-        for (Gol gol : golsDoJogo) {
-            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIADO)){
-                golsDesafiado++;
-            }
-        }
+
+    public void setGolsDesafiado(int golsDesafiado) {
+        this.golsDesafiado = golsDesafiado;
     }
-    
-    public boolean equals(Jogo jogo){
-        
+
+    public boolean isFoiJogado() {
+        return foiJogado;
+    }
+
+    public void setFoiJogado(boolean foiJogado) {
+        this.foiJogado = foiJogado;
+    }
+
+    public boolean equals(Jogo jogo) {
+
         String timeA = this.desafiante.getNome();
         String timeB = this.desafiado.getNome();
         String timeC = jogo.getDesafiante().getNome();
         String timeD = jogo.getDesafiado().getNome();
-        
-        return (timeA.equalsIgnoreCase(timeC) || timeA.equalsIgnoreCase(timeD)) 
+
+        return (timeA.equalsIgnoreCase(timeC) || timeA.equalsIgnoreCase(timeD))
                 && (timeB.equalsIgnoreCase(timeC) || timeB.equalsIgnoreCase(timeD));
     }
     
+//    public int getGolsDesafiante() {
+//        this.setGolsDesafiante();
+//        return golsDesafiante;
+//    }
+//
+//    private void setGolsDesafiante() {
+//        this.golsDesafiante = 0;
+//        for (Gol gol : golsDoJogo) {
+//            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIANTE)) {
+//                golsDesafiante++;
+//            }
+//        }
+//    }
+//
+//    public int getGolsDesafiado() {
+//        this.setGolsDesafiado();
+//        return golsDesafiado;
+//    }
+//
+//    private void setGolsDesafiado() {
+//        this.golsDesafiado = 0;
+//        for (Gol gol : golsDoJogo) {
+//            if (gol.getDiscriminante().equals(EDiscriminanteGol.DESAFIADO)) {
+//                golsDesafiado++;
+//            }
+//        }
+//    }
 }

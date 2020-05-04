@@ -12,6 +12,7 @@ import controller.action.impl.db.AlterarTimeAction;
 import controller.action.impl.db.ExcluirJogadorAction;
 import controller.action.impl.db.ExcluirTimeAction;
 import controller.action.impl.db.LoadTimesDisponiveisAction;
+import controller.action.impl.db.SalvarAlterarJogoAction;
 import controller.action.impl.db.SaveCampeonatoAction;
 import controller.action.impl.db.SaveNewJogadorAction;
 import controller.action.impl.db.SaveNewtimeAction;
@@ -61,6 +62,7 @@ public class CommanderController extends HttpServlet {
         comandos.put("saveNewJogador", new SaveNewJogadorAction());
         comandos.put("excluirJogador", new ExcluirJogadorAction());
         comandos.put("loadTimes", new LoadTimesDisponiveisAction());
+        comandos.put("salvarAlterarResultadoJogo", new SalvarAlterarJogoAction());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
