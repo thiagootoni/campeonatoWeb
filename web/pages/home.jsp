@@ -9,6 +9,8 @@
     <h5> E aí ${sessionScope.user.nome}, blz? </h5>    
 </div><br>
 <div>
+    <!-- Div destinada a divulgação de mensagens -->
+
     <div class="alert-warning">${requestScope.mensagem}</div>
     <c:if test="${requestScope.campeonato.status.getNome() == 'Em aberto'}">
         <c:if test="${sessionScope.user.ehAdm == true}">
@@ -23,9 +25,15 @@
         </c:if>
     </c:if>
 
+    <!-- Tabela do Ranking/Classificação -->
+
     <div class="card">
         <div class="card-header">
-            <h5>Tabela</h5>
+            <h5>Tabela &nbsp;&nbsp;&nbsp;&nbsp; 
+                <c:if test="${sessionScope.user.ehAdm == true}">
+                    <a href="#" class="btn btn-primary"> Definir Artilhero</a>
+                </c:if>
+            </h5>
         </div>
         <div class="card-body">
             <!-- Imprimir a tabela com a pontuação -->
@@ -35,6 +43,10 @@
                         <th>Posição</th>
                         <th>Nome</th>
                         <th>Pontos</th>
+                        <th>Jogos</th>
+                        <th>Vitorias</th>
+                        <th>Derrotas</th>
+                        <th>Empates</th>                        
                         <th>Gols Pro</th>
                         <th>Gols Contra</th>
                     </tr>
@@ -45,6 +57,10 @@
                             <td>${n.count}</td>
                             <td>${time.nome}</td>
                             <td>${time.pontos}</td>
+                            <td>${time.numJogos}</td>
+                            <td>${time.vitorias}</td>
+                            <td>${time.derrotas}</td>
+                            <td>${time.empates}</td>                            
                             <td>${time.golsAFavor}</td>
                             <td>${time.golsContra}</td>
                         </tr>
@@ -57,10 +73,14 @@
         <div class="card-header">
             <h5>Jogos</h5>
         </div>
+
+        <!-- Card COnteiner dos jogos -->
+
         <div class="card-body">
 
             <c:forEach var="jogo" items="${requestScope.campeonato.jogos}" varStatus="n">
-                <form method="post" action="salvarResultadoJogo">
+                <form method="post" action="central">
+                    <input type="hidden" name="ac" value="salvarAlterarResultadoJogo">
                     <div class="card">
                         <input type="hidden" name ="idJogo" value="${jogo.id}">
 
@@ -68,7 +88,7 @@
 
                         <div class="card-header">
                             <h6>Jogo ${n.count} - Rodada ${jogo.rodada}
-                                <c:if test="${jogo.golsDesafiante >= 0}">
+                                <c:if test="${jogo.foiJogado == true}">
                                     &nbsp;<a href="#" class="btn btn-outline-success">Jogo Finalizado</a>
                                 </c:if>
                             </h6>
@@ -79,6 +99,7 @@
                         <div class="card-body form-row">
                             <div class="col-md-5 form-row">
                                 <div class="col-md-7">
+                                    <input type="hidden" name="idDesafiante" value="${jogo.desafiante.id}">
                                     <label for="desafiante${n.count}">${jogo.desafiante.nome}</label>
                                 </div>
                                 <div class="col-md-5">
@@ -97,11 +118,12 @@
                                 </div>
                                 <div class="col-md-5 form-row">
                                     <div class="col-md-5">
-                                        <input class="form-control text-center" type="number" name="placarDesafiante" id="desafiado${n.count}" min="0" value="${jogo.golsDesafiado}"
+                                        <input class="form-control text-center" type="number" name="placarDesafiado" id="desafiado${n.count}" min="0" value="${jogo.golsDesafiado}"
                                            <c:if test="${sessionScope.user.ehAdm == false}">disabled</c:if>>
                                     </div>
                                     <div class="col-md-7 text-right">
-                                        <label for="desafiado${n.count}">${jogo.desafiado.nome}</label>
+                                        <input type="hidden" name="idDesafiado" value="${jogo.desafiado.id}">
+                                    <label for="desafiado${n.count}">${jogo.desafiado.nome}</label>
                                 </div>
                             </div>
                         </div>
@@ -109,42 +131,61 @@
                         <!-- gols -->
 
                         <div class="card-body"> 
-                            
+
                             <a class="btn btn-outline-secondary" data-toggle="collapse" href="#golsLista${n.count}" role="button"
                                role="button" aria-expanded="false" aria-controls="golsLista${n.count}">
                                 Gols <i class="fa fa-external-link"></i>
                             </a>
-                                
-                            <div class="form-row collapse" id="golsLista${n.count}">
-                                <div class="col-md-6">
-                                    <h6>${jogo.desafiante.nome}</h6><hr>
-                                    <c:forEach var="jogador" items="${jogo.desafiante.jogadores}" varStatus="m">
-                                        <div class="form-row">
-                                            <div class="col-md-9">
-                                                <input type="hidden" name ="golsIdJogador" value="${jogador.id}">
-                                                <label>${jogador.nome}</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="form-control form-control-sm text-center" type="number" name ="golsQtdJogador""> 
-                                            </div>
-                                        </div>
-                                    </c:forEach>
+
+                            <!-- Estrutura do Adm -->
+
+                            <c:if test="${sessionScope.user.ehAdm == true}">
+                                <div class="form-row collapse" id="golsLista${n.count}">
+                                    <div class="col-md-6">
+                                        <h6>${jogo.desafiante.nome}</h6><hr>
+                                        <c:forEach var="jogador" items="${jogo.desafiante.jogadores}" varStatus="m">
+                                            <div class="form-row">
+                                                <div class="col-md-9">
+                                                    <input type="hidden" name ="golsIdJogador" value="${jogador.id}">
+                                                    <input type="hidden" name ="infoDentroFora" value="DESAFIANTE">
+                                                    <label>${jogador.nome}</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="form-control form-control-sm text-center" type="number" name ="golsQtdJogador" min="0" value="0" required <c:if test="${sessionScope.user.ehAdm == false}">disabled</c:if>> 
+                                                    </div>
+                                                </div>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>${jogo.desafiado.nome}</h6><hr>
+                                        <c:forEach var="jogador" items="${jogo.desafiado.jogadores}" varStatus="m">
+                                            <div class="form-row">
+                                                <div class="col-md-9">
+                                                    <input type="hidden" name ="golsIdJogador" value="${jogador.id}">
+                                                    <input type="hidden" name ="infoDentroFora" value="DESAFIADO">
+                                                    <label>${jogador.nome}</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="form-control form-control-sm text-center" type="number" name ="golsQtdJogador" min="0" value="0" required <c:if test="${sessionScope.user.ehAdm == false}">disabled</c:if>>
+                                                    </div>
+                                                </div>                                        
+                                        </c:forEach>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h6>${jogo.desafiado.nome}</h6><hr>
-                                    <c:forEach var="jogador" items="${jogo.desafiado.jogadores}" varStatus="m">
-                                        <div class="form-row">
-                                            <div class="col-md-9">
-                                                <input type="hidden" name ="golsIdJogador" value="${jogador.id}">
-                                                <label>${jogador.nome}</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="form-control form-control-sm text-center" type="number" name ="golsQtdJogador"">
-                                            </div>
-                                        </div>                                        
-                                    </c:forEach>
+                            </c:if>
+
+                            <!-- Estrutura Normal user -->
+                            <c:if test="${sessionScope.user.ehAdm == false}">
+                                <div class="form-row collapse" id="golsLista${n.count}">
+                                    <hr><p>Marcadores:
+                                        <c:if test="${not empty jogo.golsDoJogo}">
+                                            <c:forEach var="gol" items="${jogo.golsDoJogo}">
+                                                ${gol.autor.nome} &nbsp;|
+                                            </c:forEach>
+                                        </c:if>
+                                    </p>
                                 </div>
-                            </div>
+                            </c:if>
                         </div>
 
                         <!-- Botão de Salvar Form, apenas para adms -->

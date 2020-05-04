@@ -192,7 +192,7 @@ public class Campeonato implements Serializable {
                     if (!verificaTimesNalistaDaRodada(timesNaRodada, jogoDesordenado)) {
                         
                         if (!verificaJogoNaLista(jogosOrdenados, jogoDesordenado)) {
-                            jogoDesordenado.setRodada((j+1));
+                            jogoDesordenado.setRodada((i+1));
                             jogosOrdenados.add(jogoDesordenado);
                             jogosDesordenados.remove(jogoDesordenado);
                             timesNaRodada.add(jogoDesordenado.getDesafiante());
