@@ -28,36 +28,40 @@ public class CallViewHomeAction implements ICommanderAction {
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=home");
-        
+
         // Pegar o campeonato que não está finalizado e manda pra view
         // Na view verifica o status e renderiza de acordo com o perfil do usuário
-        
         CampeonatoDao cDao = new CampeonatoDao();
         Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
-        
+TimeDao tDao = new TimeDao();
         JogoDao jDao = new JogoDao();
-        campeonato.setJogos(jDao.buscarTodosPorCampeonato(campeonato.getId()));
-        
-        TimeDao tDao = new TimeDao();
-        List<Time> times = tDao.buscarTodosDoCampeonato(campeonato.getId());
-        
-        try{
-        
-        Jogador artilheiro = new JogadorDao()
-            .buscarUm(
-                    new CampeonatoDao()
-                            .getCampeonatoAberto()
-                            .getArtilheiro()
-                            .getId());
-        
-        request.setAttribute("artilheiro", artilheiro);
+        List<Time>times = null;
+        if (campeonato != null) {
+            campeonato.setJogos(jDao.buscarTodosPorCampeonato(campeonato.getId()));
+            times = tDao.buscarTodosDoCampeonato(campeonato.getId());
         }
+
         
-        catch (Exception ex){
-        request.setAttribute("artilheiro", null);
+        
+
+        try {
+
+            Jogador artilheiro = new JogadorDao()
+                    .buscarUm(
+                            new CampeonatoDao()
+                                    .getCampeonatoAberto()
+                                    .getArtilheiro()
+                                    .getId());
+
+            request.setAttribute("artilheiro", artilheiro);
+        } catch (Exception ex) {
+            request.setAttribute("artilheiro", null);
         }
+       
+        if (campeonato !=null){
         request.setAttribute("campeonato", campeonato);
         request.setAttribute("times", times);
+        }
         tDao.close();
         cDao.close();
         rd.forward(request, response);
@@ -67,6 +71,5 @@ public class CallViewHomeAction implements ICommanderAction {
     public boolean ehLiberado() {
         return false;
     }
-    
-    
+
 }
