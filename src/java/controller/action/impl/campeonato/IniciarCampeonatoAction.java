@@ -41,12 +41,7 @@ public class IniciarCampeonatoAction implements ICommanderAction {
 
             ArrayList<Jogo> jogosOrdenados = campeonato.criaTabela();
             
-            JogoDao jDao = new JogoDao();
-            for (Jogo jogo : jogosOrdenados) {
-                jogo.setCampeonato(campeonato);
-                jDao.inserir(jogo);
-            }
-            jDao.close();
+            persisteJogos(campeonato, jogosOrdenados);
             
             cDao.alterar(campeonato);
 
