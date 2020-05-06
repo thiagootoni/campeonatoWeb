@@ -97,6 +97,19 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
         return new Campeonato();        
     }
     
+    public List<Campeonato> getCampeonatosFinalizados() throws SQLException{
+        List<Campeonato> campeonatos = this.buscarTodos();
+        List<Campeonato> campeonatosFinalizados = new ArrayList<>();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (campeonato.getStatus().equals(EStatusCampeonato.FINALIZADO)) {
+                campeonatosFinalizados.add(campeonato);
+            }
+        }
+        
+        return campeonatosFinalizados;
+    }
+    
     public Campeonato getCampeonatoAberto() throws SQLException {
         List<Campeonato> campeonatos = this.buscarTodos();
         

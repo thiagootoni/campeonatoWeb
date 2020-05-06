@@ -230,5 +230,15 @@ public class Time implements Serializable {
             this.calculaPontuacaoDosGols(golsFeitos, golsSofridos);
         }
     }
+    
+    public void zerarStats(){
+        this.setDerrotas(0);
+        this.setEmpates(0);
+        this.setVitorias(0);
+        this.setNumJogos(0);
+        this.setGolsAFavor(0);
+        this.setGolsContra(0);
+        this.setPontos(0);
+    }
 
 }
