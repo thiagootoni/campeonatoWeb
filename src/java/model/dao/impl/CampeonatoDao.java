@@ -40,8 +40,7 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
 
     @Override
     public void apagar(Integer key) throws SQLException {
-        Campeonato c = new Campeonato();
-        c.setId(key);
+        Campeonato c = this.buscarUm(key);
         
         this.getConexao().getTransaction().begin();
         this.getConexao().remove(c);

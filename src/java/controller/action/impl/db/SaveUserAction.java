@@ -53,8 +53,10 @@ public class SaveUserAction implements ICommanderAction {
                 Campeonato campeonato = verificaSeHaCampeonatoEmAberto();
                 if (campeonato != null) {
                     user.setCampeonato(campeonato);
-                    new UsuarioDao().inserir(user);
+                    UsuarioDao uDao = new UsuarioDao();
+                    uDao.inserir(user);
                     request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
+                    uDao.close();
                     new CallViewLoginAction().executar(request, response);
                 } else {
                     request.setAttribute("erro", "Volta depois fera! No momento não há campeonatos abertos!");
@@ -88,7 +90,9 @@ public class SaveUserAction implements ICommanderAction {
 
     public Campeonato verificaSeHaCampeonatoEmAberto() throws SQLException {
         CampeonatoDao cdao = new CampeonatoDao();
-        return cdao.getCampeonatoAberto();
+        Campeonato campeonato = cdao.getCampeonatoAberto();
+        cdao.close();
+        return campeonato;
     }
 
 }

@@ -12,18 +12,24 @@
     <!-- Div destinada a divulgação de mensagens -->
 
     <div class="alert-warning">${requestScope.mensagem}</div>
-    <c:if test="${requestScope.campeonato.status.getNome() == 'Em aberto'}">
-        <c:if test="${sessionScope.user.ehAdm == true}">
-            <div class="card">
-                <p class="alert-warning"> Campeonato em aberto, para iniciar vá até o menu campeonato e escolha a opção desejada</p>
-            </div> 
-        </c:if>
-        <c:if test="${sessionScope.user.ehAdm == false}">
-            <div class="card">
-                <p class="alert-warning"> Calma parsa, já já o Adm libera os jogos! </p>
-            </div> 
+    <c:if test="${requestScope.campeonato != null}">
+        <c:if test="${requestScope.campeonato.status.getNome() == 'Em aberto'}">
+            <c:if test="${sessionScope.user.ehAdm == true}">
+                <div class="alert alert-warning">
+                    Campeonato em aberto, para iniciar vá até o menu campeonato e escolha a opção desejada
+                </div> 
+            </c:if>
+            <c:if test="${sessionScope.user.ehAdm == false}">
+                <div class="alert alert-warning">
+                    Calma parsa, já já o Adm libera os jogos!
+                </div> 
+            </c:if>
         </c:if>
     </c:if>
+    <c:if test="${requestScope.campeonato == null}">
+        <div class="alert alert-warning">Não há campeonatos criados! Crie um no menu +Campeonato</div> 
+    </c:if>
+
 
     <!-- Tabela do Ranking/Classificação -->
 
@@ -32,12 +38,12 @@
             <h5>Tabela &nbsp;&nbsp;&nbsp;&nbsp; 
                 <c:if test="${sessionScope.user.ehAdm == true}">
                     <c:if test="${requestScope.artilheiro == null}">
-                       <a href="central?ac=buscarArtilheiro" class="btn btn-primary"> Definir Artilhero</a>
-                   </c:if>
+                        <a href="central?ac=buscarArtilheiro" class="btn btn-primary"> Definir Artilhero</a>
+                    </c:if>
                 </c:if>
             </h5>
         </div>
-        
+
         <div class="card-body">
             <!-- Imprimir a tabela com a pontuação -->
             <table class="table table-hover table-sm">
@@ -73,14 +79,14 @@
         </div>
     </div><br>
     <div>
-                            <c:if test="${artilheiro != null}">
-                                <p>O nome da fera é ${requestScope.artilheiro.nome}, autor de incríveis 
-                                    ${requestScope.artilheiro.golsFeitos.size()} gols garantindo assim os 5 pontos extras para o 
-                                    ${requestScope.artilheiro.time.nome}.
-                                </p>    
-                            </c:if>
+        <c:if test="${artilheiro != null}">
+            <p>O nome da fera é ${requestScope.artilheiro.nome}, autor de incríveis 
+                ${requestScope.artilheiro.golsFeitos.size()} gols garantindo assim os 5 pontos extras para o 
+                ${requestScope.artilheiro.time.nome}.
+            </p>    
+        </c:if>
 
-                        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <h5>Jogos</h5>
@@ -199,7 +205,7 @@
                                 </div>
                             </c:if>
                         </div>
-                        
+
                         <!-- Botão de Salvar Form, apenas para adms -->
 
                         <c:if test="${sessionScope.user.ehAdm == true}">
