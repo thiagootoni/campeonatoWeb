@@ -6,6 +6,7 @@
 package controller;
 
 import controller.action.ICommanderAction;
+import controller.action.impl.campeonato.ExcluirCampeonatoAction;
 import controller.action.impl.campeonato.FinalizarCampeonatoAction;
 import controller.action.impl.campeonato.IniciarCampeonatoAction;
 import controller.action.view.CallViewHistoricoAction;
@@ -69,6 +70,7 @@ public class CommanderController extends HttpServlet {
         comandos.put("historico", new CallViewHistoricoAction());
         comandos.put("painelArtilharia", new CallViewArtilharia());
         comandos.put("buscarArtilheiro", new BuscarArtilheiro());
+        comandos.put("excluirCampeonato", new ExcluirCampeonatoAction());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

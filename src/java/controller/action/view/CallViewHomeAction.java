@@ -56,7 +56,10 @@ public class CallViewHomeAction implements ICommanderAction {
         catch (Exception ex){
         request.setAttribute("artilheiro", null);
         }
-        request.setAttribute("campeonato", campeonato);
+        
+        if (campeonato != null) {
+            request.setAttribute("campeonato", campeonato);
+        }        
         request.setAttribute("times", times);
         tDao.close();
         cDao.close();

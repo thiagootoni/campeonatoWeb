@@ -77,8 +77,9 @@
         <div class="w3-main" style="margin-left:270px">
 
             <div class="w3-row w3-padding-64 conteinerPrincipal">
-                <c:if test="${requestScope.erro != null}">
-                    <div class="alert alert-warning">${requestScope.erro}</div>
+
+                <c:if test="${requestScope.erro ne null}">
+                    <div class="alert alert-warning">${requestScope.erro}</div>                    
                 </c:if>
 
                 <!-- região injetável -->

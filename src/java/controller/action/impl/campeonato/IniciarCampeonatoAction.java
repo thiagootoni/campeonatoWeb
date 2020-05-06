@@ -37,11 +37,19 @@ public class IniciarCampeonatoAction implements ICommanderAction {
         try {
             Campeonato campeonato = cDao.buscarUm(idCampeonato);
             campeonato.setStatus(EStatusCampeonato.EM_ANDAMENTO);
+            
 
             ArrayList<Jogo> jogosOrdenados = campeonato.criaTabela();
-            persisteJogos(campeonato, jogosOrdenados);
-            cDao.alterar(campeonato);
             
+            JogoDao jDao = new JogoDao();
+            for (Jogo jogo : jogosOrdenados) {
+                jogo.setCampeonato(campeonato);
+                jDao.inserir(jogo);
+            }
+            jDao.close();
+            
+            cDao.alterar(campeonato);
+
             request.setAttribute("mensagem", "Campeonato iniciado com sucesso!");
             cDao.close();
             new CallViewHomeAction().executar(request, response);
@@ -71,6 +79,7 @@ public class IniciarCampeonatoAction implements ICommanderAction {
             jogo.setCampeonato(campeonato);
             jDao.inserir(jogo);
         }
+        jDao.close();
     }
 
 }
