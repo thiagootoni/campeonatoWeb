@@ -63,5 +63,16 @@ public class GolDao extends GenericsDao<Integer, Gol> {
 
         return q.getResultList();
     }
+    
+    public int apagarTodos() throws SQLException{
+        int LinhasApagadas = 0;
+        
+        this.getConexao().getTransaction().begin();
+        Query q = this.getConexao().createQuery("DELETE FROM Gol");
+        LinhasApagadas = q.executeUpdate();
+        this.getConexao().getTransaction().commit();
+        
+        return LinhasApagadas;
+    }
 
 }

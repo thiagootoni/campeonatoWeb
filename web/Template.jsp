@@ -58,7 +58,8 @@
             <h4 class="w3-bar-item"><b>Menu</b></h4>
             <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=home">Campeonato</a>
             <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelArtilharia">Artilharia</a>
-            <a class="w3-bar-item w3-button w3-hover-black" href="#">Histórico</a>
+            <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=historico">Histórico</a>
+
             <c:if test="${sessionScope.user.ehAdm == true}">
                 <h4 class="w3-bar-item"><b>Menu Restrito</b></h4>
                 <a class="w3-bar-item w3-button w3-hover-black" href="central?ac=painelCampeonato">+ Campeonato</a>

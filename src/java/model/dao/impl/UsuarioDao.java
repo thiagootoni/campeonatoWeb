@@ -12,6 +12,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import model.DTO.UsuarioLogadoDTO;
 import model.dao.GenericsDao;
+import model.domain.Campeonato;
 import model.domain.Usuario;
 
 /**
@@ -71,6 +72,22 @@ public class UsuarioDao extends GenericsDao<Integer, Usuario>{
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
+    }
+    
+    public int apagarUsuariosCampeonatoFinalizado(Campeonato campeonato){
+        int linhasApagadas = 0;
+        
+        this.getConexao().getTransaction().begin();
+        Query q = this.getConexao().createQuery("DELETE FROM Usuario u WHERE u.campeonato.id = :id");
+        
+        try {
+            q.setParameter("id", campeonato.getId());
+            linhasApagadas = q.executeUpdate();
+            this.getConexao().getTransaction().commit();
+        } catch (Exception e) {
+            return 0;
+        }        
+        return linhasApagadas;
     }
 
     @Override
