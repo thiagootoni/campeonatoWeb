@@ -10,6 +10,7 @@ import controller.action.impl.campeonato.FinalizarCampeonatoAction;
 import controller.action.impl.campeonato.IniciarCampeonatoAction;
 import controller.action.view.CallViewHistoricoAction;
 import controller.action.impl.db.AlterarTimeAction;
+import controller.action.impl.db.BuscarArtilheiro;
 import controller.action.impl.db.ExcluirJogadorAction;
 import controller.action.impl.db.ExcluirTimeAction;
 import controller.action.impl.db.LoadTimesDisponiveisAction;
@@ -20,6 +21,7 @@ import controller.action.impl.db.SaveNewtimeAction;
 import controller.action.impl.login.LogarUserAction;
 import controller.action.impl.db.SaveUserAction;
 import controller.action.impl.login.LogoutUserAction;
+import controller.action.view.CallViewArtilharia;
 import controller.action.view.CallViewHomeAction;
 import controller.action.view.CallViewLoginAction;
 import controller.action.view.CallViewPainelCampeonatoAction;
@@ -65,6 +67,8 @@ public class CommanderController extends HttpServlet {
         comandos.put("loadTimes", new LoadTimesDisponiveisAction());
         comandos.put("salvarAlterarResultadoJogo", new SalvarAlterarJogoAction());
         comandos.put("historico", new CallViewHistoricoAction());
+        comandos.put("painelArtilharia", new CallViewArtilharia());
+        comandos.put("buscarArtilheiro", new BuscarArtilheiro());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

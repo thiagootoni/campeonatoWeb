@@ -31,10 +31,13 @@
         <div class="card-header">
             <h5>Tabela &nbsp;&nbsp;&nbsp;&nbsp; 
                 <c:if test="${sessionScope.user.ehAdm == true}">
-                    <a href="#" class="btn btn-primary"> Definir Artilhero</a>
+                    <c:if test="${requestScope.artilheiro == null}">
+                       <a href="central?ac=buscarArtilheiro" class="btn btn-primary"> Definir Artilhero</a>
+                   </c:if>
                 </c:if>
             </h5>
         </div>
+        
         <div class="card-body">
             <!-- Imprimir a tabela com a pontuação -->
             <table class="table table-hover table-sm">
@@ -69,6 +72,15 @@
             </table>
         </div>
     </div><br>
+    <div>
+                            <c:if test="${artilheiro != null}">
+                                <p>O nome da fera é ${requestScope.artilheiro.nome}, autor de incríveis 
+                                    ${requestScope.artilheiro.golsFeitos.size()} gols garantindo assim os 5 pontos extras para o 
+                                    ${requestScope.artilheiro.time.nome}.
+                                </p>    
+                            </c:if>
+
+                        </div>
     <div class="card">
         <div class="card-header">
             <h5>Jogos</h5>
@@ -187,7 +199,7 @@
                                 </div>
                             </c:if>
                         </div>
-
+                        
                         <!-- Botão de Salvar Form, apenas para adms -->
 
                         <c:if test="${sessionScope.user.ehAdm == true}">

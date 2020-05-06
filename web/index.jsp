@@ -103,7 +103,7 @@
                 <c:forEach var="time" items="${requestScope.timesdisponiveis}"> 
                  <option value="${time.id}">${time.nome}</option>
                 </c:forEach>
-               </c:if>
+               </c:if> 
                 
             <!--<option value="barcelona"> Barcelona </option>
                 <option value="realmadrid" > Real Madrid </option> 
