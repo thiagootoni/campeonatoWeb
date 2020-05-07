@@ -38,10 +38,10 @@ public class CallViewHomeAction implements ICommanderAction {
         Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
         //campeonato.getParticipantes();
         //campeonato.getJogos().get(0).getGolsDoJogo();
-
+        JogoDao jDao = new JogoDao();
         List<Time> times = null;
         if (campeonato != null) {
-            JogoDao jDao = new JogoDao();
+            
             List<Jogo> jogos = jDao.buscarTodosPorCampeonato(campeonato.getId());
             jogos = buscaGolsDosJogos(jogos);
             campeonato.setJogos(jogos);
@@ -73,8 +73,9 @@ public class CallViewHomeAction implements ICommanderAction {
 
         if (campeonato != null) {
             request.setAttribute("campeonato", campeonato);
+            
         }
-
+        
         request.setAttribute("times", times);
         cDao.close();
         rd.forward(request, response);

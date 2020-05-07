@@ -58,6 +58,7 @@ public class SaveUserAction implements ICommanderAction {
                         uDao.inserir(user);
                         request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
                         uDao.close();
+                        request.setAttribute("vagasDisponiveis", campeonato.getQtdUsuarios() - campeonato.getParticipantes().size());
                         new CallViewLoginAction().executar(request, response);
                     } else {
                         request.setAttribute("erro", "Volta depois fera! O campeonato tá cheio!");
