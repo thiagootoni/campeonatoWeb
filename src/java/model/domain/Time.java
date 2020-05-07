@@ -33,7 +33,7 @@ public class Time implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "time")
+    @OneToMany(mappedBy = "time", cascade = CascadeType.REMOVE)
     private List<Jogador> jogadores;
 
     @OneToOne(mappedBy = "time")

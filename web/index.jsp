@@ -52,28 +52,33 @@
 
     <!-- Banner -->
     <section id="banner" style="background-color: #009688">
-        <form action ="central" method="post"><div class="inner">
-          
+        <form action ="central" method="post">
+            <div class="inner">
                 <h1>Este é o The Ultimate Championship! <br />
-                Conquiste o reinado do torneio!</h1>
-            <!-- buscar se há campeonato aberto e quantas vagas disponíveis -->
-           <c:if test ="${requestScope.timesdisponiveis.size() >0 && requestScope.timesdisponiveis.size() ==1}">
-            <h3> Resta apenas 1 vaga!</h3><br>
-            </c:if>
-            <c:if test="${requestScope.timesdisponiveis.size() > 1}">
-            <h3>Restam ${requestScope.timesdisponiveis.size()} vagas</h3><br>
-            </c:if>
-            <c:if test="${requestScope.timesdisponiveis.size() == 0 || requestScope.timesdisponiveis == null}">
-            <h3>Não há vagas disponíveis fera</h3><br>
-            </c:if>
-            <ul class="actions">
-                <li><a href="#formularioCadastro" class="button alt scrolly big">Cadastrar</a></li>
-            </ul>
-            <c:if test="${requestScope.erro != null}">
-                <a href="#" class="button alt scrolly"> ${requestScope.erro} </a>
-            </c:if>
-        </div>
-            </form>
+                    Conquiste o reinado do torneio!</h1>
+                <!-- buscar se há campeonato aberto e quantas vagas disponíveis -->
+
+                <c:if test="${not empty requestScope.nomeCampeonato}">
+                    <h3> ${requestScope.nomeCampeonato} rolando! 
+                    <c:if test ="${requestScope.timesdisponiveis.size() >0 && requestScope.timesdisponiveis.size() ==1}">
+                         Resta apenas 1 vaga!</h3><br>
+                    </c:if>
+                    <c:if test="${requestScope.timesdisponiveis.size() > 1}">
+                        <h3>Restam ${requestScope.timesdisponiveis.size()} vagas</h3><br>
+                    </c:if>
+                    <c:if test="${requestScope.timesdisponiveis.size() == 0 || requestScope.timesdisponiveis == null}">
+                        <h3>Não há vagas disponíveis fera</h3><br>
+                    </c:if>
+                </c:if>
+                        
+                <ul class="actions">
+                    <li><a href="#formularioCadastro" class="button alt scrolly big">Cadastrar</a></li>
+                </ul>
+                <c:if test="${requestScope.erro != null}">
+                    <a href="#" class="button alt scrolly"> ${requestScope.erro} </a>
+                </c:if>
+            </div>
+        </form>
     </section>
 
     <!-- Cadastro -->
@@ -100,15 +105,15 @@
             <label for="time"> Time: </label>
             <select id="time" name="slcTime">
                 <c:if test="${requestScope.timesdisponiveis.size() != 0}">
-                <c:forEach var="time" items="${requestScope.timesdisponiveis}"> 
-                 <option value="${time.id}">${time.nome}</option>
-                </c:forEach>
-               </c:if> 
-                
-            <!--<option value="barcelona"> Barcelona </option>
-                <option value="realmadrid" > Real Madrid </option> 
-                <option value="juventus" > Juventus </option> 
-                <option value="gremio" selected> Gremio </option> -->                            
+                    <c:forEach var="time" items="${requestScope.timesdisponiveis}"> 
+                        <option value="${time.id}">${time.nome}</option>
+                    </c:forEach>
+                </c:if> 
+
+                <!--<option value="barcelona"> Barcelona </option>
+                    <option value="realmadrid" > Real Madrid </option> 
+                    <option value="juventus" > Juventus </option> 
+                    <option value="gremio" selected> Gremio </option> -->                            
             </select>
 
             <!-- Botão Cadastrar -->

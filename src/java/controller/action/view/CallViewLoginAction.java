@@ -11,7 +11,9 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DTO.TimeDTO;
+import model.dao.impl.CampeonatoDao;
 import model.dao.impl.TimeDao;
+import model.domain.Campeonato;
 
 /**
  *
@@ -25,9 +27,11 @@ public class CallViewLoginAction implements ICommanderAction {
         if (request.getSession().getAttribute("user") != null) {
             new CallViewHomeAction().executar(request, response);
         }else{
+            Campeonato campeonato = new CampeonatoDao().getCampeonatoAbertoOuEmAndamento();
             List<TimeDTO>timesDisponiveis = new TimeDao().retornaTimesDisponiveis();
             //request.setAttribute("timedisponivel", timesDisponiveis.get(0));
             request.setAttribute("timesdisponiveis", timesDisponiveis);
+            request.setAttribute("nomeCampeonato", campeonato.getNome());
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
             

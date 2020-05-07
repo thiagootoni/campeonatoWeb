@@ -57,9 +57,11 @@ TimeDao tDao = new TimeDao();
         } catch (Exception ex) {
             request.setAttribute("artilheiro", null);
         }
-       
-        if (campeonato !=null){
-        request.setAttribute("campeonato", campeonato);
+        
+        if (campeonato != null) {
+            request.setAttribute("campeonato", campeonato);
+        }
+      
         request.setAttribute("times", times);
         }
         tDao.close();
