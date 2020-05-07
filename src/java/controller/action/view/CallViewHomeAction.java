@@ -49,16 +49,31 @@ public class CallViewHomeAction implements ICommanderAction {
 
             TimeDao tDao = new TimeDao();            
             times = tDao.buscarTodosDoCampeonato(campeonato.getId());
-            tDao.close();            
-        }
+            tDao.close(); 
+            
+            try{
+              Jogador artilheiro = new JogadorDao()
+                      .buscarUm(
+                              new CampeonatoDao()
+                                      .getCampeonatoEmAndamento()
+                                      .getArtilheiro()
+                                      .getId());
+              request.setAttribute("artilheiro", artilheiro);
+             }
 
-        try {
-            Jogador artilheiro = (Jogador)request.getAttribute("artilheiro");                    
+              catch(Exception expt){
+                  try {
+                      Jogador artilheiro = (Jogador) request.getAttribute("artilheiro");
 
-            request.setAttribute("artilheiro", artilheiro);
-        } catch (Exception ex) {
-            request.setAttribute("artilheiro", null);
-        }
+                      request.setAttribute("artilheiro", artilheiro);
+                  } catch (Exception ex) {
+                      request.setAttribute("artilheiro", null);
+                  }
+
+              }
+          }
+
+        
 
         if (campeonato != null) {
             request.setAttribute("campeonato", campeonato);
