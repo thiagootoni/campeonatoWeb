@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.impl.CampeonatoDao;
 import model.dao.impl.JogoDao;
+import model.dao.impl.UsuarioDao;
 import model.domain.Campeonato;
 import model.domain.EStatusCampeonato;
 import model.domain.Jogo;
@@ -37,8 +38,7 @@ public class IniciarCampeonatoAction implements ICommanderAction {
         try {
             Campeonato campeonato = cDao.buscarUm(idCampeonato);
             campeonato.setStatus(EStatusCampeonato.EM_ANDAMENTO);
-            
-
+            campeonato.setParticipantes(new UsuarioDao().buscarTodosPorCampeonato(idCampeonato)); 
             ArrayList<Jogo> jogosOrdenados = campeonato.criaTabela();
             
             persisteJogos(campeonato, jogosOrdenados);

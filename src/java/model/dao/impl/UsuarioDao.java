@@ -97,5 +97,10 @@ public class UsuarioDao extends GenericsDao<Integer, Usuario>{
         return q.getResultList();
     }
     
+    public List<Usuario> buscarTodosPorCampeonato(Integer id) throws SQLException {
+        Query q = this.getConexao().createQuery("SELECT u FROM Usuario u WHERE u.campeonato.id =:id");
+        q.setParameter("id", id);
+        return q.getResultList();
+    }
     
 }

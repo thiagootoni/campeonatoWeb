@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DTO.CampeonatoPainelAdmDto;
 import model.dao.impl.CampeonatoDao;
+import model.dao.impl.UsuarioDao;
 import model.domain.Campeonato;
 import model.domain.EStatusCampeonato;
 
@@ -34,6 +35,12 @@ public class CallViewPainelCampeonatoAction implements ICommanderAction{
         request.setAttribute("temCampeonatoAberto", temCampeonatoAberto);
                 
         List<CampeonatoPainelAdmDto> campeonatos = new CampeonatoDao().buscarTodosCampPainelDto();
+        for (CampeonatoPainelAdmDto campeonato : campeonatos) {
+            campeonato.setQtdParticipantes(new UsuarioDao()
+                    .buscarTodosPorCampeonato(
+                            campeonato.getId())
+                    .size());
+        }
         request.setAttribute("campeonatos", campeonatos);
         
         rd.forward(request, response);
