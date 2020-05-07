@@ -119,6 +119,16 @@ public class CampeonatoDao extends GenericsDao<Integer, Campeonato>{
         }        
         return null;        
     }
+    public Campeonato getCampeonatoEmAndamento() throws SQLException {
+        List<Campeonato> campeonatos = this.buscarTodos();
+        
+        for (Campeonato campeonato : campeonatos) {
+            if (campeonato.getStatus().equals(EStatusCampeonato.EM_ANDAMENTO)) {
+                return campeonato;
+            }
+        }        
+        return null;        
+    }
     
     public boolean checkCampeonatoAbertoOuEmAndamento() throws SQLException {
         List<Campeonato> campeonatos = this.buscarTodos();

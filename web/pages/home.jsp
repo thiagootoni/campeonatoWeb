@@ -85,7 +85,9 @@
                 ${requestScope.artilheiro.time.nome}.
             </p>    
         </c:if>
-
+        <c:if test="${requestScope.artilheiro ==null && requestScope.naojogados !=null}"> 
+        ${naojogados}    
+        </c:if>
     </div>
     <div class="card">
         <div class="card-header">
