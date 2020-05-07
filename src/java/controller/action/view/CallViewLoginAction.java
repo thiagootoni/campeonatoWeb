@@ -30,6 +30,8 @@ public class CallViewLoginAction implements ICommanderAction {
             Campeonato campeonato = new CampeonatoDao().getCampeonatoAbertoOuEmAndamento();
             List<TimeDTO>timesDisponiveis = new TimeDao().retornaTimesDisponiveis();
             //request.setAttribute("timedisponivel", timesDisponiveis.get(0));
+            int vagasDisponiveis = campeonato.getQtdUsuarios() - campeonato.getParticipantes().size();
+            request.setAttribute("vagasDisponiveis", vagasDisponiveis);
             request.setAttribute("timesdisponiveis", timesDisponiveis);
             request.setAttribute("nomeCampeonato", campeonato.getNome());
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");

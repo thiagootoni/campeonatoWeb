@@ -36,9 +36,9 @@ public class CallViewHomeAction implements ICommanderAction {
         // Na view verifica o status e renderiza de acordo com o perfil do usuário
         CampeonatoDao cDao = new CampeonatoDao();
         Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
-        campeonato.getParticipantes();
+        //campeonato.getParticipantes();
         //campeonato.getJogos().get(0).getGolsDoJogo();
-        
+
         List<Time> times = null;
         if (campeonato != null) {
             JogoDao jDao = new JogoDao();
@@ -47,38 +47,34 @@ public class CallViewHomeAction implements ICommanderAction {
             campeonato.setJogos(jogos);
             jDao.close();
 
-            TimeDao tDao = new TimeDao();            
+            TimeDao tDao = new TimeDao();
             times = tDao.buscarTodosDoCampeonato(campeonato.getId());
-            tDao.close(); 
-            
-            try{
-              Jogador artilheiro = new JogadorDao()
-                      .buscarUm(
-                              new CampeonatoDao()
-                                      .getCampeonatoEmAndamento()
-                                      .getArtilheiro()
-                                      .getId());
-              request.setAttribute("artilheiro", artilheiro);
-             }
+            tDao.close();
 
-              catch(Exception expt){
-                  try {
-                      Jogador artilheiro = (Jogador) request.getAttribute("artilheiro");
+            try {
+                Jogador artilheiro = new JogadorDao()
+                        .buscarUm(
+                                new CampeonatoDao()
+                                        .getCampeonatoEmAndamento()
+                                        .getArtilheiro()
+                                        .getId());
+                request.setAttribute("artilheiro", artilheiro);
+            } catch (Exception expt) {
+                try {
+                    Jogador artilheiro = (Jogador) request.getAttribute("artilheiro");
 
-                      request.setAttribute("artilheiro", artilheiro);
-                  } catch (Exception ex) {
-                      request.setAttribute("artilheiro", null);
-                  }
+                    request.setAttribute("artilheiro", artilheiro);
+                } catch (Exception ex) {
+                    request.setAttribute("artilheiro", null);
+                }
 
-              }
-          }
-
-        
+            }
+        }
 
         if (campeonato != null) {
             request.setAttribute("campeonato", campeonato);
         }
-        
+
         request.setAttribute("times", times);
         cDao.close();
         rd.forward(request, response);
@@ -88,16 +84,16 @@ public class CallViewHomeAction implements ICommanderAction {
     public boolean ehLiberado() {
         return false;
     }
-    
-    public List<Jogo> buscaGolsDosJogos(List<Jogo> jogos) throws SQLException{
+
+    public List<Jogo> buscaGolsDosJogos(List<Jogo> jogos) throws SQLException {
         GolDao gDao = new GolDao();
         ArrayList<Jogo> jogosComGols = new ArrayList<>();
-        
+
         for (Jogo jogo : jogos) {
             jogo.setGolsDoJogo(gDao.buscarTodosPorJogo(jogo.getId()));
             jogosComGols.add(jogo);
         }
-        
+
         return jogosComGols;
     }
 

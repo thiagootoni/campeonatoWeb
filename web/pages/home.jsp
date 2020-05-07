@@ -80,13 +80,14 @@
     </div><br>
     <div>
         <c:if test="${artilheiro != null}">
-            <p>O nome da fera é ${requestScope.artilheiro.nome}, autor de incríveis 
+            <div class="alert alert-success">
+                O nome da fera é ${requestScope.artilheiro.nome}, autor de incríveis 
                 ${requestScope.artilheiro.golsFeitos.size()} gols garantindo assim os 5 pontos extras para o 
                 ${requestScope.artilheiro.time.nome}.
-            </p>    
+            </div>    
         </c:if>
         <c:if test="${requestScope.artilheiro ==null && requestScope.naojogados !=null}"> 
-        ${naojogados}    
+            <div class="alert alert-warning">${naojogados}</div>    
         </c:if>
     </div>
     <div class="card">

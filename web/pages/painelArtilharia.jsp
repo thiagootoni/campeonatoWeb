@@ -18,8 +18,8 @@
             <div class="card-header" >
                 Tabela de Artilharia
             </div>
-            <div>
-                <table class="table table-hover table-sm "">
+            <div class="card-body">
+                <table class="table table-hover table-sm">
                     <thead>
                         <tr>
                             <th scope="col">Nome do Jogador</th>

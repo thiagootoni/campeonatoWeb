@@ -45,8 +45,9 @@ public class FinalizarCampeonatoAction implements ICommanderAction {
         cdao.close();
 
         // guardar os dados do campeão
-        
-        String nomeDoCampeao = (campeonato.getCampeao() == null)?"":campeonato.getCampeao().getNome();
+        TimeDao tDao = new TimeDao();
+        String nomeDoCampeao = tDao.buscarTimeDoCampeao(id).getUsuario().getNome();
+        tDao.close();
         int idCampeonatoFinalizado = campeonato.getId();
 
         // Apagar os registros dos usuários
