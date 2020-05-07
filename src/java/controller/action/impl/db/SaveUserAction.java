@@ -52,12 +52,18 @@ public class SaveUserAction implements ICommanderAction {
 
                 Campeonato campeonato = verificaSeHaCampeonatoEmAberto();
                 if (campeonato != null) {
-                    user.setCampeonato(campeonato);
-                    UsuarioDao uDao = new UsuarioDao();
-                    uDao.inserir(user);
-                    request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
-                    uDao.close();
-                    new CallViewLoginAction().executar(request, response);
+                    if (campeonato.getQtdUsuarios() > campeonato.getParticipantes().size()) {
+                        user.setCampeonato(campeonato);
+                        UsuarioDao uDao = new UsuarioDao();
+                        uDao.inserir(user);
+                        request.setAttribute("erro", "Cadastro concluído com Sucesso! Entre para saber qual será seu próximo desafio!");
+                        uDao.close();
+                        new CallViewLoginAction().executar(request, response);
+                    } else {
+                        request.setAttribute("erro", "Volta depois fera! O campeonato tá cheio!");
+                        new CallViewLoginAction().executar(request, response);
+                    }
+
                 } else {
                     request.setAttribute("erro", "Volta depois fera! No momento não há campeonatos abertos!");
                     new CallViewLoginAction().executar(request, response);

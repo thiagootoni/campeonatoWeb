@@ -59,7 +59,7 @@ public class GolDao extends GenericsDao<Integer, Gol> {
 
     @Override
     public List<Gol> buscarTodos() throws SQLException {
-        Query q = this.getConexao().createQuery("SELECT c FROM Gol g");
+        Query q = this.getConexao().createQuery("SELECT g FROM Gol g");
 
         return q.getResultList();
     }
@@ -73,6 +73,13 @@ public class GolDao extends GenericsDao<Integer, Gol> {
         this.getConexao().getTransaction().commit();
         
         return LinhasApagadas;
+    }
+    
+    public List<Gol> buscarTodosPorJogo(Integer idJogo) throws SQLException {
+        Query q = this.getConexao().createQuery("SELECT g FROM Gol g WHERE g.jogo.id = :id");
+        
+        q.setParameter("id", idJogo);
+        return q.getResultList();
     }
 
 }
