@@ -33,16 +33,13 @@ public class CallViewHomeAction implements ICommanderAction {
         // Na view verifica o status e renderiza de acordo com o perfil do usuário
         CampeonatoDao cDao = new CampeonatoDao();
         Campeonato campeonato = cDao.buscaCampeonatoEmAbertoOuEmAndamento();
-TimeDao tDao = new TimeDao();
+        TimeDao tDao = new TimeDao();
         JogoDao jDao = new JogoDao();
-        List<Time>times = null;
+        List<Time> times = null;
         if (campeonato != null) {
             campeonato.setJogos(jDao.buscarTodosPorCampeonato(campeonato.getId()));
             times = tDao.buscarTodosDoCampeonato(campeonato.getId());
         }
-
-        
-        
 
         try {
 
@@ -57,13 +54,11 @@ TimeDao tDao = new TimeDao();
         } catch (Exception ex) {
             request.setAttribute("artilheiro", null);
         }
-        
+
         if (campeonato != null) {
             request.setAttribute("campeonato", campeonato);
         }
-      
         request.setAttribute("times", times);
-        }
         tDao.close();
         cDao.close();
         rd.forward(request, response);
@@ -75,3 +70,5 @@ TimeDao tDao = new TimeDao();
     }
 
 }
+
+
