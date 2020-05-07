@@ -25,42 +25,46 @@ public class CallViewArtilharia implements ICommanderAction {
 
     @Override
     public boolean ehLiberado() {
-    return false;
+        return false;
     }
 
     @Override
     public void executar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-   
-    RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelArtilharia");
-   
-    //Pegando artilheiro do campeonato
-    Jogador maior = null;
-    Jogador artilheiro = new JogadorDao()
-            .buscarUm(
-                    new CampeonatoDao()
-                            .getCampeonatoAberto()
-                            .getArtilheiro()
-                            .getId());
-    
-    int golsFeitos = artilheiro.getGolsFeitos().size();
-       List<Jogador> todosJogadores = new JogadorDao().buscarTodos();
-      List<Jogador> jogadoresGoleadores = new ArrayList<>();
-      
-      for (Jogador jogador : todosJogadores) {
-           if (jogador.getGolsFeitos().size() >0) 
-           jogadoresGoleadores.add(jogador);    
+
+        RequestDispatcher rd = request.getRequestDispatcher("Template.jsp?page=painelArtilharia");
+
+        //Pegando artilheiro do campeonato
+        try {
+
+            Jogador artilheiro = new JogadorDao()
+                    .buscarUm(
+                            new CampeonatoDao()
+                                    .getCampeonatoAberto()
+                                    .getArtilheiro()
+                                    .getId());
+
+            request.setAttribute("artilheiro", artilheiro);
+        } //int golsFeitos = artilheiro.getGolsFeitos().size();
+        catch (Exception ex) {
+            List<Jogador> todosJogadores = new JogadorDao().buscarTodos();
+            List<Jogador> jogadoresGoleadores = new ArrayList<>();
+
+            for (Jogador jogador : todosJogadores) {
+                if (jogador.getGolsFeitos().size() > 0) {
+                    jogadoresGoleadores.add(jogador);
+                }
+            }
+            Collections.sort(
+                    jogadoresGoleadores,
+                     (j1, j2)
+                    -> j2.getGolsFeitos().size()
+                    - j1.getGolsFeitos().size());
+
+            request.setAttribute("jogadoresGoleadores", jogadoresGoleadores);
+            request.setAttribute("artilheiro", null);
         }
-        Collections.sort(
-                jogadoresGoleadores 
-                ,(j1,j2) 
-                 -> j2.getGolsFeitos().size() 
-                 - j1.getGolsFeitos().size());
-        
-        request.setAttribute("jogadoresGoleadores", jogadoresGoleadores);
-        request.setAttribute("golsfeitos",golsFeitos);
-        request.setAttribute("artilheiro", artilheiro);
-        
-       rd.forward(request, response);
+
+        rd.forward(request, response);
     }
-    
+
 }
