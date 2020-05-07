@@ -46,7 +46,14 @@ public class FinalizarCampeonatoAction implements ICommanderAction {
 
         // guardar os dados do campeão
         TimeDao tDao = new TimeDao();
-        String nomeDoCampeao = tDao.buscarTimeDoCampeao(id).getUsuario().getNome();
+        String nomeDoCampeao ="";
+       try{
+        nomeDoCampeao = tDao.buscarTimeDoCampeao(id).getUsuario().getNome();
+       }
+       catch(Exception ex){
+        nomeDoCampeao = "";
+       }
+       
         tDao.close();
         int idCampeonatoFinalizado = campeonato.getId();
 

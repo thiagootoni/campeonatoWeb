@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.DTO.CampeonatoPainelAdmDto;
 import model.dao.impl.CampeonatoDao;
 import model.dao.impl.JogadorDao;
+import model.domain.Gol;
 import model.domain.Jogador;
 
 /**
@@ -47,16 +48,23 @@ public class CallViewArtilharia implements ICommanderAction {
         } //int golsFeitos = artilheiro.getGolsFeitos().size();
         catch (Exception ex) {
             List<Jogador> todosJogadores = new JogadorDao().buscarTodos();
-            List<Jogador> jogadoresGoleadores = new ArrayList<>();
 
+            List<Jogador> jogadoresGoleadores = new ArrayList<>();
+            int i = 0;
             for (Jogador jogador : todosJogadores) {
+                jogador.getGolsFeitos();
+                for (Gol golsFeito : jogador.getGolsFeitos()) {
+                    golsFeito.getId();
+                }
                 if (jogador.getGolsFeitos().size() > 0) {
+
                     jogadoresGoleadores.add(jogador);
                 }
+                i++;
             }
             Collections.sort(
                     jogadoresGoleadores,
-                     (j1, j2)
+                    (j1, j2)
                     -> j2.getGolsFeitos().size()
                     - j1.getGolsFeitos().size());
 
