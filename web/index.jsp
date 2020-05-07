@@ -60,13 +60,13 @@
 
                 <c:if test="${not empty requestScope.nomeCampeonato}">
                     <h3> ${requestScope.nomeCampeonato} rolando! 
-                    <c:if test ="${requestScope.timesdisponiveis.size() >0 && requestScope.timesdisponiveis.size() ==1}">
+                    <c:if test ="${requestScope.vagasDisponiveis >0 && requestScope.vagasDisponiveis ==1}">
                          Resta apenas 1 vaga!</h3><br>
                     </c:if>
-                    <c:if test="${requestScope.timesdisponiveis.size() > 1}">
-                        <h3>Restam ${requestScope.timesdisponiveis.size()} vagas</h3><br>
+                    <c:if test="${requestScope.vagasDisponiveis > 1}">
+                        <h3>Restam ${requestScope.vagasDisponiveis} vagas</h3><br>
                     </c:if>
-                    <c:if test="${requestScope.timesdisponiveis.size() == 0 || requestScope.timesdisponiveis == null}">
+                    <c:if test="${requestScope.vagasDisponiveis == 0 || requestScope.vagasDisponiveis == null}">
                         <h3>Não há vagas disponíveis fera</h3><br>
                     </c:if>
                 </c:if>

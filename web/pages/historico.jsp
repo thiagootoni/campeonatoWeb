@@ -17,9 +17,9 @@
             </div> 
         </c:if>
 
-        <div class="card-body" style="min-height: 500px">
-            <div class="table table-hover table-sm">
-                <table>
+        <div class="card-body" style="min-height: 350px">
+            <div class="card-body">
+                <table class="table table-hover table-sm">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

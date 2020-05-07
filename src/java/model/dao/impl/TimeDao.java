@@ -125,7 +125,13 @@ public class TimeDao extends GenericsDao<Integer, Time> {
         
     }
     
-    
+    public Time buscarTimeDoCampeao(Integer idCampeonato){
+        try {
+            return this.buscarTodosDoCampeonato(idCampeonato).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
     
 }
